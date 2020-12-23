@@ -132,6 +132,4 @@ dmypy.json
 .pyre/
 
 # untracked dev file
-lolicon/exp.py
-# interactive script
-lolicon/iexp.py
+exp.py
