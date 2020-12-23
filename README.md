@@ -1,4 +1,10 @@
 <p align="center">
+  <a title="Project Logo">
+    <img height="150" style="margin-top:15px" src="logo/../docs/logo-v1.svg">
+  </a>
+</p>
+
+<p align="center">
     <a href="https://github.com/hentai-chan/lolicon/actions?query=workflow%3ACI" title="Continuous Integration">
         <img src="https://github.com/hentai-chan/lolicon/workflows/CI/badge.svg">
     </a>
@@ -25,7 +31,18 @@
     </a>
 </p>
 
-# Lolicon
+## Abstract
 
-This is a work in progress. Expect frequent changes to the API. More information
-will follow soon.
+Lolicon is a STEM project that provides useful utility methods for engineering
+sciences and educational purposes. The project name bears no relationship to
+anything but my fondness of weird project names.
+
+## Note
+
+This is a work in progress. Expect frequent changes to the API. As it stands now,
+this library is not ready for production use yet.
+
+## Contact
+
+You can reach me at <dev.hentai-chan@outlook.com> for questions related to this
+project.
