@@ -5,6 +5,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="999.99988"
@@ -15,9 +16,21 @@
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
    sodipodi:docname="logo-v2.svg">
   <title
-     id="title1074">Advanced Systems Logo V2</title>
+     id="title1074">Advanced Systems Logo</title>
   <defs
      id="defs1225">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient876">
+      <stop
+         style="stop-color:#0f0f0f;stop-opacity:0.9921568"
+         offset="0"
+         id="stop872" />
+      <stop
+         style="stop-color:#191919;stop-opacity:0.99215686"
+         offset="1"
+         id="stop874" />
+    </linearGradient>
     <rect
        x="1351.1544"
        y="297.0968"
@@ -84,6 +97,15 @@
        width="266.78845"
        height="53.507359"
        id="rect1337" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient876"
+       id="linearGradient878"
+       x1="238.125"
+       y1="56.22916"
+       x2="171.97917"
+       y2="-7.2708397"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -93,15 +115,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="351.24091"
-     inkscape:cy="384.56886"
+     inkscape:cx="417.18043"
+     inkscape:cy="146.60715"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:document-rotation="0"
@@ -179,16 +201,16 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Advanced Systems Logo V2</dc:title>
-        <dc:date>2020/11/25</dc:date>
+        <dc:title>Advanced Systems Logo</dc:title>
+        <dc:date>2020/12/26</dc:date>
         <dc:creator>
           <cc:Agent>
-            <dc:title />
+            <dc:title>hentai-chan</dc:title>
           </cc:Agent>
         </dc:creator>
         <dc:rights>
           <cc:Agent>
-            <dc:title />
+            <dc:title>hentai-chan</dc:title>
           </cc:Agent>
         </dc:rights>
         <cc:license
@@ -202,43 +224,42 @@
      id="layer1"
      transform="translate(-132.29165,49.51101)"
      style="display:inline">
-    <text
-       xml:space="preserve"
-       id="text970"
-       style="font-style:normal;font-weight:normal;font-size:141.111px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect972);fill:#000000;fill-opacity:1;stroke:none;"><tspan
-         style="visibility:hidden"
-         x="92.603516"
-         y="158.09363"><tspan
-           dx="0 65.938919 29.042061 64.233604"
-           style="font-size:105.833px">blog</tspan></tspan></text>
-    <text
-       xml:space="preserve"
-       id="text984"
-       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect986);fill:#000000;fill-opacity:1;stroke:none;" />
     <g
-       id="g2154"
-       transform="translate(-899.58345,-208.26099)">
+       id="g889">
+      <text
+         xml:space="preserve"
+         id="text970"
+         style="font-style:normal;font-weight:normal;font-size:141.111px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect972);fill:#000000;fill-opacity:1;stroke:none;"><tspan
+           style="visibility:hidden"
+           x="92.603516"
+           y="158.09363"><tspan
+             dx="0 65.938919 29.042061 64.233604"
+             style="font-size:105.833px">blog</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         id="text984"
+         style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect986);fill:#000000;fill-opacity:1;stroke:none;" />
       <path
          id="path2139"
          style="fill:#202020;fill-opacity:0.992157;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 1137.7084,158.75 v 87.3125 l -43.6563,-43.65625 -13.2291,-13.22917 -18.709,18.70894 13.2292,13.22916 43.4682,43.46815 h -86.9363 v 26.45833 h 132.2916 V 158.75 Z" />
+         d="m 238.12495,-49.51099 v 87.3125 l -43.6563,-43.65625 -13.2291,-13.22917 -18.709,18.70894 13.2292,13.22916 43.4682,43.46815 h -86.9363 v 26.45833 h 132.2916 V -49.51099 Z" />
       <path
          id="path2141"
          style="fill:#303f9f;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 1283.2292,224.89583 c 0,0 0,26.45834 -26.4583,26.45834 h -39.6875 -26.4584 v -26.45834 h 52.9167 13.2292 z" />
+         d="m 383.64575,16.63484 c 0,0 0,26.45834 -26.4583,26.45834 h -39.6875 -26.4584 V 16.63484 h 52.9167 13.2292 z" />
       <path
          style="fill:#1f1f1f;fill-opacity:0.992157;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 1283.2292,291.04167 h -26.4583 c 0,-105.83333 -66.1459,-105.83333 -66.1459,-105.83333 v -26.45833 c 0,0 92.6042,-2e-5 92.6042,132.29166 z"
+         d="m 383.64575,82.78068 h -26.4583 c 0,-105.83333 -66.1459,-105.83333 -66.1459,-105.83333 v -26.45833 c 0,0 92.6042,-2e-5 92.6042,132.29166 z"
          id="path2143"
          sodipodi:nodetypes="ccccc" />
       <path
          style="fill:#3949ab;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 1296.4584,291.04166 h -21.1667 c 0,-105.83334 -84.6667,-105.83334 -84.6667,-105.83334 v -26.45834 c 0,0 105.8334,0 105.8334,132.29168 z"
+         d="m 396.87495,82.78067 h -21.1667 c 0,-105.83334 -84.6667,-105.83334 -84.6667,-105.83334 v -26.45834 c 0,0 105.8334,0 105.8334,132.29168 z"
          id="path2145"
          sodipodi:nodetypes="ccccc" />
       <path
-         style="fill:#1a1a1a;fill-opacity:0.992157;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-         d="m 1081.3521,189.70625 56.8854,56.88542 0.2507,18.46561 -19.1477,0.0552 -56.6974,-56.69732 z"
+         style="fill:url(#linearGradient878);fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 181.76865,-18.55474 56.8854,56.88542 0.2507,18.46561 -19.1477,0.0552 -56.6974,-56.69732 z"
          id="path2147" />
     </g>
   </g>
