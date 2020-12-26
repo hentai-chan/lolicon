@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.0.3a-2 (26 December 2020)
+
+Fix package import error.
+
 ## Version 0.0.3a (26 December 2020)
 
 Implements the `Element` class in the `chemistry` namespace for convenient access 
