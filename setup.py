@@ -14,4 +14,5 @@ setup(
     name="lolicon",
     version=version,
     install_requires=packages,
+    include_package_data=True
 )
