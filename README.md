@@ -1,6 +1,6 @@
 <p align="center">
   <a title="Project Logo">
-    <img height="150" style="margin-top:15px" src="logo/../docs/logo-v1.svg">
+    <img height="150" style="margin-top:15px" src="logo/../docs/logo-annotated.svg">
   </a>
 </p>
 
@@ -33,9 +33,9 @@
 
 ## Abstract
 
-Lolicon is a STEM project that provides useful utility methods for engineering
-sciences and educational purposes. The project name bears no relationship to
-anything but my fondness of weird project names.
+This is a STEM project that provides useful utility methods for engineering
+sciences and educational purposes. Lolicon bears no relationship to anything but
+my fondness of weird project names.
 
 ## Note
 
