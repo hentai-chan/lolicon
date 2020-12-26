@@ -1,0 +1,6 @@
+include CHANGELOG.md
+include LICENSE
+
+recursive-include lolicon/data *.json
+
+exclude exp.py
