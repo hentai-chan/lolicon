@@ -1,6 +1,6 @@
 <p align="center">
   <a title="Project Logo">
-    <img height="150" style="margin-top:15px" src="logo/../docs/logo-annotated.svg">
+    <img height="150" style="margin-top:15px" src="https://github.com/hentai-chan/lolicon/blob/master/docs/logo-annotated.svg">
   </a>
 </p>
 
