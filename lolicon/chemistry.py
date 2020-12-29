@@ -3,11 +3,9 @@
 from __future__ import annotations
 
 import functools
-import json
-from importlib.resources import path as resource_path
 
 import pint
-from colorama import Fore
+from colorama import Fore, Style
 from pint.quantity import Quantity
 
 from . import utils
@@ -22,29 +20,51 @@ class Element(object):
             def wrapper(*args, **kwargs):
                 try:
                     if func(*args, **kwargs) is None:
-                        raise ValueError(f"{Fore.RED}{variable} is None")
+                        raise ValueError(f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
                     return func(*args, **kwargs)
                 except TypeError:
-                    raise ValueError(f"{Fore.RED}{variable} is None")
+                    raise ValueError(f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
             return wrapper
         return decorator
     
     def __init__(self, symbol: str) -> Element:
-        self.symbol = symbol
+        self.symbol = symbol.capitalize()
 
-    @staticmethod
-    def __get_pse_data(symbol: str) -> dict:
-        with resource_path('lolicon.data', 'pse.json') as resource_handler:
-            with open(resource_handler, 'r', encoding='utf-8') as file_handler:      
-                for element in json.load(file_handler)  :
-                    if symbol == element['Symbol']:
-                        return element
+    def __str__(self) -> str:
+        return self.symbol
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(AtomicNumber={self.atomic_number})"
+
+    #region operators
+
+    def __gt__(self, other) -> bool:
+        return self.atomic_number > other.atomic_number
+
+    def __ge__(self, other) -> bool:
+        return self.atomic_number >= other.atomic_number
+
+    def __eq__(self, other) -> bool:
+        return self.atomic_number == other.atomic_number
+
+    def __le__(self, other) -> bool:
+        return self.atomic_number <= other.atomic_number
+
+    def __lt__(self, other) -> bool:
+        return self.atomic_number < other.atomic_number
+
+    def __ne__(self, other) -> bool:
+        return self.atomic_number != other.atomic_number
+
+    #endregion
+    
     #region properties
 
     @property
     def data(self) -> dict:
-        return Element.__get_pse_data(self.symbol)
+        for element in utils.load_resource('lolicon.data', 'pse.json'):
+            if self.symbol == element.get('Symbol'):
+                return element
 
     @property
     def name(self) -> str:
