@@ -2,5 +2,6 @@
 
 from .chemistry import *
 from .lolicon import *
+from .physics import *
 
 __version__ = "0.0.3a-2"
