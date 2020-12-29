@@ -2,31 +2,12 @@
 
 from __future__ import annotations
 
-import functools
-
-import pint
-from colorama import Fore, Style
 from pint.quantity import Quantity
 
 from . import utils
 
 
-class Element(object):
-    __unit = pint.UnitRegistry()
-
-    def raise_on_none(variable: str):
-        def decorator(func):
-            @functools.wraps(func)
-            def wrapper(*args, **kwargs):
-                try:
-                    if func(*args, **kwargs) is None:
-                        raise ValueError(f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
-                    return func(*args, **kwargs)
-                except TypeError:
-                    raise ValueError(f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
-            return wrapper
-        return decorator
-    
+class Element(object):    
     def __init__(self, symbol: str) -> Element:
         self.symbol = symbol.capitalize()
 
@@ -76,12 +57,12 @@ class Element(object):
 
     @property
     def atomic_mass(self) -> Quantity:
-        return self.data['AtomicMass'] * Element.__unit.Da
+        return self.data['AtomicMass'] * utils.UNIT.Da
 
     @property
-    @raise_on_none('atomic_radius')
+    @utils.raise_on_none('atomic_radius')
     def atomic_radius(self) -> Quantity:
-        return self.data['AtomicRadius'] * Element.__unit.m
+        return self.data['AtomicRadius'] * utils.UNIT.m
 
     @property
     def number_of_neutrons(self) -> int:
@@ -124,47 +105,45 @@ class Element(object):
         return self.data['Type']
 
     @property
-    @raise_on_none('electronegativity')
+    @utils.raise_on_none('electronegativity')
     def electronegativity(self) -> float:
         return self.data['Electronegativity']
             
     @property
     def first_ionization(self) -> Quantity:
-        return self.data['FirstIonization'] * Element.__unit.eV
+        return self.data['FirstIonization'] * utils.UNIT.eV
 
     @property
-    @raise_on_none('density')
+    @utils.raise_on_none('density')
     def density(self) -> Quantity:
-        unit = Element.__unit.g / (Element.__unit.cm ** 3)
-        return self.data['Density'] * 1000 * unit
+        return self.data['Density'] * 1000 * utils.UNIT.g / (utils.UNIT.cm ** 3)
 
     @property
-    @raise_on_none('melting_point')
+    @utils.raise_on_none('melting_point')
     def melting_point(self) -> Quantity:
-        return self.data['MeltingPoint'] * Element.__unit.K
+        return self.data['MeltingPoint'] * utils.UNIT.K
 
     @property
-    @raise_on_none('boiling_point')
+    @utils.raise_on_none('boiling_point')
     def boiling_point(self) -> Quantity:
-        return self.data['BoilingPoint'] * Element.__unit.K
+        return self.data['BoilingPoint'] * utils.UNIT.K
 
     @property
-    @raise_on_none('number_of_isotopes')
+    @utils.raise_on_none('number_of_isotopes')
     def number_of_isotopes(self) -> int:
         return self.data['NumberOfIsotopes']
 
     @property
-    @raise_on_none('specific_heat')
+    @utils.raise_on_none('specific_heat')
     def specific_heat(self) -> Quantity:
-        unit = Element.__unit.J / (Element.__unit.g * Element.__unit.K)
-        return self.data['SpecificHeat'] * unit
+        return self.data['SpecificHeat'] * utils.UNIT.J / (utils.UNIT.g * utils.UNIT.K)
 
     @property
     def number_of_shells(self) -> int:
         return self.data['NumberOfShells']
 
     @property
-    @raise_on_none('number_of_valance')
+    @utils.raise_on_none('number_of_valance')
     def number_of_valance(self) -> int:
         return self.data['NumberOfValence']
 
