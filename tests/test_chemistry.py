@@ -6,10 +6,21 @@ class TestElement(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.gold = Element('Au')
+        cls.hydrogen = Element('H')
 
     @classmethod 
     def tearDown(cls):
         pass
+
+    def test_operators(self):
+        self.assertTrue(self.hydrogen < self.gold, msg="Hydrogen's atomic number should be less than gold's atomic number")
+        self.assertTrue(self.hydrogen <= self.gold, msg="Hydrogen's atomic number should be less than or equal to gold's atomic number")
+        self.assertFalse(self.hydrogen == self.gold, msg="Hydrogen's atomic number should not be equal to gold's atomic number")
+        self.assertFalse(self.hydrogen >= self.gold, msg="Hydrogen's atomic number should not be greater than or equal to gold's atomic number")
+        self.assertFalse(self.hydrogen > self.gold, msg="Hydrogen's atomic number should not be greater than gold's atomic number")
+
+    def test_repr(self):
+        self.assertEqual(repr(self.gold), 'Element(AtomicNumber=79)', msg="Representing formatting changed")
 
     def test_name(self):
         self.assertEqual(self.gold.name, 'Gold')
