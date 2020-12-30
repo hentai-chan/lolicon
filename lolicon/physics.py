@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from typing import List
 
 from pint.quantity import Quantity
 
@@ -244,7 +245,7 @@ class Planet(object):
 
     @property
     @utils.raise_on_none('surface_pressure')
-    def surface_pressure(self):
+    def surface_pressure(self) -> Quantity:
         """
         This is the atmospheric pressure (the weight of the atmosphere per unit area) 
         at the surface of the planet in bars or atmospheres.
@@ -281,6 +282,117 @@ class Planet(object):
 
     #endregion
 
+    #region methods
+
+    @staticmethod
+    def list() -> List[Planet]:
+        return [Planet(planet['Name']) for planet in utils.load_resource('lolicon.data', 'planets.json')]
+
+    #endregion
+
 class Satellite(object):
-    pass
+    """
+    Satellite
+    =========
+
+    Basic Usage
+    -----------
+        >>> from lolicon.physics import Satellite
+        >>> moon = Satellite('Moon')
+        >>> print(moon.radius)
+        1737.5 kilometer
+
+    This interface exposes planetary data from the NASA Jet Propulsion Laboratory
+    as `pint` quantities. See reference data sheet at <https://ssd.jpl.nasa.gov/?sat_phys_par>
+    """
+    def __init__(self, name: str) -> Planet:
+        self.name = name.capitalize()
+
+    def __str__(self) -> str:
+        return self.name
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(ID={self.id})"
+
+    #region operators
+
+    def __gt__(self, other) -> bool:
+        return self.id > other.id
+
+    def __ge__(self, other) -> bool:
+        return self.id >= other.id
+
+    def __eq__(self, other) -> bool:
+        return self.id == other.id
+
+    def __le__(self, other) -> bool:
+        return self.id <= other.id
+
+    def __lt__(self, other) -> bool:
+        return self.id < other.id
+
+    def __ne__(self, other) -> bool:
+        return self.id != other.id
+
+    #endregion
+
+    #region property
+
+    @property
+    def data(self) -> dict:
+        for satellite in utils.load_resource('lolicon.data', 'satellites.json'):
+            if self.name == satellite.get('Name'):
+                return satellite
+
+    @property
+    def id(self) -> int:
+        return self.data['ID']
+
+    @property
+    def planet(self) -> Planet:
+        """
+        Owning planet of the satellite.
+        """
+        for planet in utils.load_resource('lolicon.data', 'planets.json'):
+            if self.data['PlanetID'] == planet.get('ID'):
+                return planet
+
+    @property
+    def gm(self) -> Quantity:
+        return self.data['GM'] * (utils.UNIT.km ** 3) / (utils.UNIT.s ** 2)
+
+    @property
+    def radius(self) -> Quantity:
+        return self.data['Radius'] * utils.UNIT.km
+
+    @property
+    def density(self) -> Quantity:
+        return self.data['Density'] * utils.UNIT.g / (utils.UNIT.cm ** 3)
+
+    @property
+    def magnitude(self) -> float:
+        """
+        Apparent Magnitude is the magnitude of an object as it appears in the sky 
+        on Earth. Apparent Magnitude is also referred to as Visual Magnitude.
+        """
+        return self.data['Magnitude']
+
+    @property
+    def albedo(self) -> float:
+        """
+        Geometric albedo is the ratio of a body's brightness at zero phase angle 
+        to the brightness of a perfectly diffusing disk with the same position and 
+        apparent size as the body.
+        """
+        return self.data['Albedo']
+
+    #endregion
+
+    #region methods
+
+    @staticmethod
+    def list() -> List[Satellite]:
+        return [Satellite(satellite['Name']) for satellite in utils.load_resource('lolicon.data', 'satellites.json')]
+
+    #endregion
     
