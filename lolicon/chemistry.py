@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import List
+
 from pint.quantity import Quantity
 
 from . import utils
@@ -146,6 +148,14 @@ class Element(object):
     @utils.raise_on_none('number_of_valance')
     def number_of_valance(self) -> int:
         return self.data['NumberOfValence']
+
+    #endregion
+
+    #region methods
+
+    @staticmethod
+    def list() -> List[Element]:
+        return [Element(element['Symbol']) for element in utils.load_resource('lolicon.data', 'pse.json')]
 
     #endregion
     
