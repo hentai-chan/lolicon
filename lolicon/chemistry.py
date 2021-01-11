@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import List
+from typing import List, Tuple
 
 from pint.quantity import Quantity
 
@@ -44,110 +44,108 @@ class Element(object):
     #region properties
 
     @property
-    def data(self) -> dict:
-        for element in utils.load_resource('lolicon.data', 'pse.json'):
-            if self.symbol == element.get('Symbol'):
-                return element
+    def data(self) -> Tuple:
+        return utils.query_db(db='elements.db', sql="SELECT * FROM Element WHERE Symbol=?", parameters=(self.symbol,))[0]
 
     @property
     def name(self) -> str:
-        return self.data['Element']
+        return self.data[1]
 
     @property
     def atomic_number(self) -> int:
-        return self.data['AtomicNumber']
+        return self.data[2]
 
     @property
     def atomic_mass(self) -> Quantity:
-        return self.data['AtomicMass'] * utils.UNIT.Da
+        return self.data[3] * utils.UNIT.Da
 
     @property
     @utils.raise_on_none('atomic_radius')
     def atomic_radius(self) -> Quantity:
-        return self.data['AtomicRadius'] * utils.UNIT.m
+        return self.data[4] * utils.UNIT.m
 
     @property
     def number_of_neutrons(self) -> int:
-        return self.data['NumberOfNeutrons']
+        return self.data[5]
 
     @property
     def number_of_protons(self) -> int:
-        return self.data['NumberOfProtons']
+        return self.data[6]
 
     @property
     def number_of_electrons(self) -> int:
-        return self.data['NumberOfElectrons']
+        return self.data[7]
 
     @property
     def period(self) -> int:
-        return self.data['Period']
+        return self.data[8]
 
     @property
     def phase(self) -> str:
-        return self.data['Phase']
+        return self.data[9]
 
     @property
     def radioactive(self) -> bool:
-        return self.data['Radioactive']
+        return utils.str_to_bool(self.data[10])
     
     @property
     def natural(self) -> bool:
-        return self.data['Natural']
+        return utils.str_to_bool(self.data[11])
 
     @property
     def metal(self) -> bool:
-        return self.data['Metal']
+        return utils.str_to_bool(self.data[12])
 
     @property
     def metalloid(self) -> bool:
-        return self.data['Metalloid']
+        return utils.str_to_bool(self.data[13])
 
     @property
     def type(self) -> str:
-        return self.data['Type']
+        return self.data[14]
 
     @property
     @utils.raise_on_none('electronegativity')
     def electronegativity(self) -> float:
-        return self.data['Electronegativity']
+        return self.data[15]
             
     @property
     def first_ionization(self) -> Quantity:
-        return self.data['FirstIonization'] * utils.UNIT.eV
+        return self.data[16] * utils.UNIT.eV
 
     @property
     @utils.raise_on_none('density')
     def density(self) -> Quantity:
-        return self.data['Density'] * 1000 * utils.UNIT.g / (utils.UNIT.cm ** 3)
+        return self.data[17] * 1000 * utils.UNIT.g / (utils.UNIT.cm ** 3)
 
     @property
     @utils.raise_on_none('melting_point')
     def melting_point(self) -> Quantity:
-        return self.data['MeltingPoint'] * utils.UNIT.K
+        return self.data[18] * utils.UNIT.K
 
     @property
     @utils.raise_on_none('boiling_point')
     def boiling_point(self) -> Quantity:
-        return self.data['BoilingPoint'] * utils.UNIT.K
+        return self.data[19] * utils.UNIT.K
 
     @property
     @utils.raise_on_none('number_of_isotopes')
     def number_of_isotopes(self) -> int:
-        return self.data['NumberOfIsotopes']
+        return self.data[20]
 
     @property
     @utils.raise_on_none('specific_heat')
     def specific_heat(self) -> Quantity:
-        return self.data['SpecificHeat'] * utils.UNIT.J / (utils.UNIT.g * utils.UNIT.K)
+        return self.data[21] * utils.UNIT.J / (utils.UNIT.g * utils.UNIT.K)
 
     @property
     def number_of_shells(self) -> int:
-        return self.data['NumberOfShells']
+        return self.data[22]
 
     @property
     @utils.raise_on_none('number_of_valance')
     def number_of_valance(self) -> int:
-        return self.data['NumberOfValence']
+        return self.data[23]
 
     #endregion
 
@@ -155,7 +153,8 @@ class Element(object):
 
     @staticmethod
     def list() -> List[Element]:
-        return [Element(element['Symbol']) for element in utils.load_resource('lolicon.data', 'pse.json')]
+        symbols = utils.query_db(db='elements.db', sql="SELECT ? FROM Element", parameters=('Symbol',))
+        return [Element(symbol[0]) for symbol in symbols]
 
     #endregion
     
