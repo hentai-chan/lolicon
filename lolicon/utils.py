@@ -4,19 +4,32 @@ from __future__ import annotations
 
 import functools
 import json
+import sqlite3
+from contextlib import closing
 from importlib.resources import path as resource_path
-from typing import List
+from sqlite3.dbapi2 import Cursor, connect
+from typing import Iterable, List
 
-from colorama import Fore, Style
 import pint
+from colorama import Fore, Style
 
 UNIT = pint.UnitRegistry()
 
+
+def str_to_bool(string) -> bool:
+    return True if string == 'True' else False
 
 def load_resource(resource: str, package: str) -> List[dict]:
      with resource_path(resource, package) as resource_handler:
          with open(resource_handler, mode='r', encoding='utf-8') as file_handler:
              return json.load(file_handler)
+
+def query_db(db: str, sql: str, parameters: Iterable) -> List:    
+    with resource_path('lolicon.data', db) as resource_handler:
+        with closing(sqlite3.connect(resource_handler)) as connection:
+            with closing(connection.cursor()) as cursor:
+                return cursor.execute(sql, parameters).fetchall()
+
 
 def raise_on_none(variable: str):
         def decorator(func):
