@@ -13,11 +13,8 @@ class TestElement(unittest.TestCase):
         pass
 
     def test_operators(self):
-        self.assertTrue(self.hydrogen < self.gold, msg="Hydrogen's atomic number should be less than gold's atomic number")
-        self.assertTrue(self.hydrogen <= self.gold, msg="Hydrogen's atomic number should be less than or equal to gold's atomic number")
-        self.assertFalse(self.hydrogen == self.gold, msg="Hydrogen's atomic number should not be equal to gold's atomic number")
-        self.assertFalse(self.hydrogen >= self.gold, msg="Hydrogen's atomic number should not be greater than or equal to gold's atomic number")
-        self.assertFalse(self.hydrogen > self.gold, msg="Hydrogen's atomic number should not be greater than gold's atomic number")
+        self.assertFalse(self.hydrogen == self.gold, msg="Hydrogen and gold don't represent the same Element")
+        self.assertTrue(self.hydrogen != self.gold, msg="Hydrogen and gold don't represent the same Element")
 
     def test_repr(self):
         self.assertEqual(repr(self.gold), 'Element(AtomicNumber=79)', msg="Representing formatting changed")
