@@ -21,20 +21,8 @@ class Element(object):
 
     #region operators
 
-    def __gt__(self, other) -> bool:
-        return self.atomic_number > other.atomic_number
-
-    def __ge__(self, other) -> bool:
-        return self.atomic_number >= other.atomic_number
-
     def __eq__(self, other) -> bool:
         return self.atomic_number == other.atomic_number
-
-    def __le__(self, other) -> bool:
-        return self.atomic_number <= other.atomic_number
-
-    def __lt__(self, other) -> bool:
-        return self.atomic_number < other.atomic_number
 
     def __ne__(self, other) -> bool:
         return self.atomic_number != other.atomic_number
