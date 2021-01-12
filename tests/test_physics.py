@@ -13,14 +13,11 @@ class TestPlanet(unittest.TestCase):
         pass
 
     def test_operators(self):
-        self.assertTrue(self.mercury < self.earth, msg="Mercury's ID should be less than Earth's ID")
-        self.assertTrue(self.mercury <= self.earth, msg="Mercury's ID should be less than or equal to Earth's ID")
-        self.assertFalse(self.mercury == self.earth, msg="Mercury's ID should not be equal to Earth's ID")
-        self.assertFalse(self.mercury >= self.earth, msg="Mercury's ID should be greater than Earth's ID")
-        self.assertFalse(self.mercury > self.earth, msg="Mercury's ID should be greater than or equal to Earth's ID")
+        self.assertFalse(self.mercury == self.earth, msg="Mercury and Earth don't represent the same Planet")
+        self.assertTrue(self.mercury != self.earth, msg="Mercury and Earth don't represent the same Planet")
 
     def test_repr(self):
-        self.assertEqual(repr(self.earth), 'Planet(ID=3)', msg="Representing formatting changed")
+        self.assertEqual(repr(self.earth), 'Planet(Name=Earth)', msg="Representation changed?")
 
     def test_mass(self):
         self.assertEqual(self.earth.mass.magnitude, 5.969999999999999e+24, msg="Expected 5.969999999999999e+24 (change of precision?)")
@@ -77,10 +74,16 @@ class TestPlanet(unittest.TestCase):
         self.assertFalse(self.earth.ring_system, msg="Expected False")
 
     def test_global_magnetic_field(self):
-        self.assertFalse(self.earth.global_magnetic_field, msg="Expected False")
+        self.assertTrue(self.earth.global_magnetic_field, msg="Expected False")
 
     def test_list(self):
         self.assertEqual(len(Planet.list()), 9, msg="There should be only 9 planets.")
+
+    def test_value_error(self):
+        pluto = Planet('pluto')
+        with self.assertRaises(ValueError) as context:
+            _ = pluto.global_magnetic_field
+        self.assertTrue('Global Magnetic Field of Pluto is unknown.')
 
 class TestSatellite(unittest.TestCase):
     @classmethod
@@ -93,14 +96,11 @@ class TestSatellite(unittest.TestCase):
         pass
 
     def test_operators(self):
-        self.assertTrue(self.moon < self.triton, msg="Moon's ID should be less than Triton's ID")
-        self.assertTrue(self.moon <= self.triton, msg="Moon's ID should be less than or equal to Triton's ID")
-        self.assertFalse(self.moon == self.triton, msg="Moon's ID should not be equal to Triton's ID")
-        self.assertFalse(self.moon >= self.triton, msg="Moon's ID should be greater than Triton's ID")
-        self.assertFalse(self.moon > self.triton, msg="Moon's ID should be greater than or equal to Triton's ID")
+        self.assertFalse(self.moon == self.triton, msg="Moon and Triton don't represent the same satellite.")
+        self.assertTrue(self.moon != self.triton, msg="Moon and Triton don't represent the same satellite.")
 
     def test_repr(self):
-        self.assertEqual(repr(self.moon), 'Satellite(ID=1)', msg="Representing formatting changed")
+        self.assertEqual(repr(self.moon), 'Satellite(Name=Moon)', msg="Representation changed?")
 
     def test_name(self):
         self.assertEqual(self.moon.name, 'Moon', msg="Expected 'Moon' (change of capitalization?)")
@@ -122,3 +122,18 @@ class TestSatellite(unittest.TestCase):
 
     def test_list(self):
         self.assertEqual(len(Satellite.list()), 177, msg="There should be only 177 satellites.")
+
+    def test_value_error(self):
+        methone, styx = Satellite('methone'), Satellite('styx')
+
+        with self.assertRaises(ValueError) as context:
+            _ = methone.magnitude
+        self.assertTrue(f"Magnitude of {methone.name} is unknown.")
+
+        with self.assertRaises(ValueError) as context:
+            _ = methone.albedo
+        self.assertTrue(f"Albedo of {methone.name} is unknown")
+
+        with self.assertRaises(ValueError) as context:
+            _ = styx.density
+        self.assertTrue(f"Density of {styx.name} is unknown")
