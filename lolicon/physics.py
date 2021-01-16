@@ -73,9 +73,9 @@ class Planet(object):
     def diameter(self) -> Quantity:
         """
         The diameter of the planet at the equator, the distance through the center
-        of the planet from one point on the equator to the opposite side, in meters.
+        of the planet from one point on the equator to the opposite side, in kilometers.
         """
-        return self.__data[2] * utils.UNIT.m
+        return self.__data[2] * utils.UNIT.km
 
     @property
     def density(self) -> Quantity:
