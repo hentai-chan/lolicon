@@ -52,7 +52,7 @@ class Planet(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db(db='planets.db', sql="SELECT * FROM Planet WHERE Name=?", parameters=(self.name,))[0]
+        return utils.query_db('planets.db', "SELECT * FROM Planet WHERE Name=?", (self.name,))[0]
 
     @property
     def name(self) -> str:
@@ -273,7 +273,7 @@ class Planet(object):
         """
         Return a list of all planets from the solar system.
         """
-        names = utils.query_db(db='planets.db', sql="SELECT ? FROM Planet", parameters=('Name',))
+        names = utils.query_db('planets.db', "SELECT ? FROM Planet", ('Name',))
         return [Planet(name[0]) for name in names]
 
     #endregion
@@ -319,7 +319,7 @@ class Satellite(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db(db='satellites.db', sql="SELECT * FROM Satellite WHERE Name=?", parameters=(self.name,))[0]
+        return utils.query_db('satellites.db', "SELECT * FROM Satellite WHERE Name=?", (self.name,))[0]
 
     @property
     def name(self) -> str:
@@ -386,7 +386,7 @@ class Satellite(object):
         """
         Return a list of all satellites from the solar system.
         """
-        names = utils.query_db(db='satellites.db', sql="SELECT ? FROM Satellite", parameters=('Name',))
+        names = utils.query_db('satellites.db', "SELECT ? FROM Satellite", ('Name',))
         return [Satellite(name[0]) for name in names]
 
     #endregion

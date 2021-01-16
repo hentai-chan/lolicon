@@ -44,7 +44,7 @@ class Element(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db(db='elements.db', sql="SELECT * FROM Element WHERE Symbol=?", parameters=(self.symbol,))[0]
+        return utils.query_db('elements.db', "SELECT * FROM Element WHERE Symbol=?", (self.symbol,))[0]
 
     @property
     def symbol(self) -> str:
@@ -295,7 +295,7 @@ class Element(object):
         """
         Return a list of all elements from the periodic system of elements.
         """
-        symbols = utils.query_db(db='elements.db', sql="SELECT ? FROM Element", parameters=('Symbol',))
+        symbols = utils.query_db('elements.db', "SELECT ? FROM Element", ('Symbol',))
         return [Element(symbol[0]) for symbol in symbols]
 
     #endregion
