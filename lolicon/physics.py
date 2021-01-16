@@ -30,7 +30,7 @@ class Planet(object):
         """
         Instantiate a new planet from the solar system.
         """
-        self.name = name.capitalize()
+        self.__name = name.capitalize()
 
     def __str__(self) -> str:
         return self.name
@@ -53,6 +53,13 @@ class Planet(object):
     @property
     def __data(self) -> Tuple:
         return utils.query_db(db='planets.db', sql="SELECT * FROM Planet WHERE Name=?", parameters=(self.name,))[0]
+
+    @property
+    def name(self) -> str:
+        """
+        Return the English name of this planet.
+        """
+        return self.__name
 
     @property
     def mass(self) -> Quantity:
@@ -290,7 +297,7 @@ class Satellite(object):
         """
         Instantiate a new satellite from the solar system.
         """
-        self.name = name.capitalize()
+        self.__name = name.capitalize()
 
     def __str__(self) -> str:
         return self.name
@@ -313,6 +320,13 @@ class Satellite(object):
     @property
     def __data(self) -> Tuple:
         return utils.query_db(db='satellites.db', sql="SELECT * FROM Satellite WHERE Name=?", parameters=(self.name,))[0]
+
+    @property
+    def name(self) -> str:
+        """
+        Return the English name of this satellite.
+        """
+        return self.__name
 
     @property
     def planet(self) -> Planet:

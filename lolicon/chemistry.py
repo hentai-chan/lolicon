@@ -22,7 +22,7 @@ class Element(object):
         79
     """
     def __init__(self, symbol: str) -> Element:
-        self.symbol = symbol.capitalize()
+        self.__symbol = symbol.capitalize()
 
     def __str__(self) -> str:
         return self.symbol
@@ -45,6 +45,13 @@ class Element(object):
     @property
     def __data(self) -> Tuple:
         return utils.query_db(db='elements.db', sql="SELECT * FROM Element WHERE Symbol=?", parameters=(self.symbol,))[0]
+
+    @property
+    def symbol(self) -> str:
+        """
+        Return the chemical symbol for this element.
+        """
+        return self.__symbol
 
     @property
     def name(self) -> str:
