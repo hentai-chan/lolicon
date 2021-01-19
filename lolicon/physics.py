@@ -67,7 +67,7 @@ class Planet(object):
         This is the mass of the planet in septillion (1 followed by 24 zeros)
         kilograms.
         """
-        return self.__data[1] * math.pow(10, 24) * utils.UNIT.kg
+        return self.__data[1] * math.pow(10, 24) * utils.UREG.kg
 
     @property
     def diameter(self) -> Quantity:
@@ -75,7 +75,7 @@ class Planet(object):
         The diameter of the planet at the equator, the distance through the center
         of the planet from one point on the equator to the opposite side, in kilometers.
         """
-        return self.__data[2] * utils.UNIT.km
+        return self.__data[2] * utils.UREG.km
 
     @property
     def density(self) -> Quantity:
@@ -84,7 +84,7 @@ class Planet(object):
         including the atmosphere for the terrestrial planets) in kilograms per
         cubic meter.
         """
-        return self.__data[3] * utils.UNIT.kg / (utils.UNIT.m ** 3)
+        return self.__data[3] * utils.UREG.kg / (utils.UREG.m ** 3)
 
     @property
     def gravity(self) -> Quantity:
@@ -96,7 +96,7 @@ class Planet(object):
         1 "G", so the Earth ratio fact sheets gives the gravity of the other
         planets in G's.
         """
-        return self.__data[4] * utils.UNIT.m / (utils.UNIT.s ** 2)
+        return self.__data[4] * utils.UREG.m / (utils.UREG.s ** 2)
 
     @property
     def escape_velocity(self) -> Quantity:
@@ -105,7 +105,7 @@ class Planet(object):
         the 1 bar pressure level for the gas giants) to escape the body's
         gravitational pull, ignoring atmospheric drag.
         """
-        return self.__data[5] * utils.UNIT.km / utils.UNIT.s
+        return self.__data[5] * utils.UREG.km / utils.UREG.s
 
     @property
     def rotation_period(self) -> Quantity:
@@ -114,7 +114,7 @@ class Planet(object):
         to the fixed background stars (not relative to the Sun) in hours. Negative
         numbers indicate retrograde (backwards relative to the Earth) rotation.
         """
-        return self.__data[6] * utils.UNIT.hour
+        return self.__data[6] * utils.UREG.hour
 
     @property
     def length_of_day(self) -> Quantity:
@@ -122,7 +122,7 @@ class Planet(object):
         The average time in hours for the Sun to move from the noon position in
         the sky at a point on the equator back to the same position.
         """
-        return self.__data[7] * utils.UNIT.hour
+        return self.__data[7] * utils.UREG.hour
 
     @property
     def distance_from_sun(self) -> Quantity:
@@ -137,7 +137,7 @@ class Planet(object):
         table gives this distance in AU. For the Moon, the average distance from
         the Earth is given.
         """
-        return self.__data[8] * math.pow(10, 6) * utils.UNIT.km
+        return self.__data[8] * math.pow(10, 6) * utils.UREG.km
 
     @property
     def perihelion(self) -> Quantity:
@@ -146,7 +146,7 @@ class Planet(object):
         the Moon, the closest and furthest points to Earth are given, known as
         the "Perigee" and "Apogee" respectively.
         """
-        return self.__data[9] * math.pow(10, 6) * utils.UNIT.km
+        return self.__data[9] * math.pow(10, 6) * utils.UREG.km
 
     @property
     def aphelion(self) -> Quantity:
@@ -155,7 +155,7 @@ class Planet(object):
         Moon, the closest and furthest points to Earth are given, known as the
         "Perigee" and "Apogee" respectively.
         """
-        return self.__data[10] * math.pow(10, 6) * utils.UNIT.km
+        return self.__data[10] * math.pow(10, 6) * utils.UREG.km
 
     @property
     def orbital_period(self) -> Quantity:
@@ -168,7 +168,7 @@ class Planet(object):
         For Pluto, the tropical orbit period is not well known, the sidereal orbit
         period is used.
         """
-        return self.__data[11] * utils.UNIT.day
+        return self.__data[11] * utils.UREG.day
 
     @property
     def orbital_velocity(self) -> Quantity:
@@ -177,7 +177,7 @@ class Planet(object):
         kilometers per second. For the Moon, the average velocity around the Earth
         is given.
         """
-        return self.__data[12] * (utils.UNIT.km / utils.UNIT.s)
+        return self.__data[12] * (utils.UREG.km / utils.UREG.s)
 
     @property
     def orbital_inclination(self) -> Quantity:
@@ -186,7 +186,7 @@ class Planet(object):
         relative to the ecliptic plane. The ecliptic plane is defined as the
         plane containing the Earth's orbit, so the Earth's inclination is 0.
         """
-        return self.__data[13] * utils.UNIT.deg
+        return self.__data[13] * utils.UREG.deg
 
     @property
     def orbital_eccentricity(self) -> float:
@@ -211,7 +211,7 @@ class Planet(object):
         slightly "down". The ratios with Earth refer to the axis without reference
         to north or south.
         """
-        return self.__data[15] * utils.UNIT.deg
+        return self.__data[15] * utils.UREG.deg
 
     @property
     def mean_temperature(self) -> Quantity:
@@ -225,7 +225,7 @@ class Planet(object):
         there will tend to be variations in temperature from the equator to the poles,
         from the day to night sides, and seasonal changes on most of the planets.
         """
-        return utils.UNIT.Quantity(self.__data[16], utils.UNIT.degC)
+        return utils.UREG.Quantity(self.__data[16], utils.UREG.degC)
 
     @property
     @utils.raise_on_none('surface_pressure')
@@ -236,7 +236,7 @@ class Planet(object):
         Saturn, Uranus, and Neptune are deep in the atmosphere and the location and
         pressures are not known.
         """
-        return self.__data[17] * utils.UNIT.bar
+        return self.__data[17] * utils.UREG.bar
 
     @property
     def number_of_moons(self) -> int:
@@ -341,14 +341,14 @@ class Satellite(object):
         The standard gravitational parameter is defined as the product of the
         gravitational constant G and the mass M of the celestial body.
         """
-        return self.__data[2] * (utils.UNIT.km ** 3) / (utils.UNIT.s ** 2)
+        return self.__data[2] * (utils.UREG.km ** 3) / (utils.UREG.s ** 2)
 
     @property
     def radius(self) -> Quantity:
         """
         The mean radius of the celestial body, in kilometers.
         """
-        return self.__data[3] * utils.UNIT.km
+        return self.__data[3] * utils.UREG.km
 
     @property
     @utils.raise_on_none('density')
@@ -356,7 +356,7 @@ class Satellite(object):
         """
         The mean density of the celestial body, in g/cm³.
         """
-        return self.__data[4] * utils.UNIT.g / (utils.UNIT.cm ** 3)
+        return self.__data[4] * utils.UREG.g / (utils.UREG.cm ** 3)
 
     @property
     @utils.raise_on_none('magnitude')

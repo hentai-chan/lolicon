@@ -12,7 +12,7 @@ from typing import Iterable, List
 import pint
 from colorama import Fore, Style
 
-UNIT = pint.UnitRegistry()
+UREG = pint.UnitRegistry()
 
 
 def load_resource(resource: str, package: str) -> List[dict]:

@@ -82,7 +82,7 @@ class Element(object):
         contributions. Thus, the numeric value of the atomic mass when expressed
         in daltons has nearly the same value as the mass number.
         """
-        return self.__data[3] * utils.UNIT.Da
+        return self.__data[3] * utils.UREG.Da
 
     @property
     @utils.raise_on_none('atomic_radius')
@@ -101,7 +101,7 @@ class Element(object):
         This property returns the covalent radius in Å (angstrom), which is one
         ten-billionth of a meter (0.000_000_000_1 m) or 1/10th of a nanometer.
         """
-        return self.__data[4] * utils.UNIT.angstrom
+        return self.__data[4] * utils.UREG.angstrom
 
     @property
     def number_of_neutrons(self) -> int:
@@ -213,7 +213,7 @@ class Element(object):
         The first ionization energy is the energy required to remove 1 electron from
         the valence shell.
         """
-        return self.__data[16] * utils.UNIT.eV
+        return self.__data[16] * utils.UREG.eV
 
     @property
     @utils.raise_on_none('density')
@@ -222,7 +222,7 @@ class Element(object):
         The density (more precisely, the volumetric mass density; also known as
         specific mass), of a substance is its mass per unit volume.
         """
-        return self.__data[17] * 1000 * utils.UNIT.g / (utils.UNIT.cm ** 3)
+        return self.__data[17] * 1000 * utils.UREG.g / (utils.UREG.cm ** 3)
 
     @property
     @utils.raise_on_none('melting_point')
@@ -234,7 +234,7 @@ class Element(object):
         of a substance depends on pressure and is usually specified at a standard
         pressure such as 1 atmosphere or 100 kPa.
         """
-        return self.__data[18] * utils.UNIT.K
+        return self.__data[18] * utils.UREG.K
 
     @property
     @utils.raise_on_none('boiling_point')
@@ -243,7 +243,7 @@ class Element(object):
         The boiling point of a substance is the temperature at which it can change
         its state from a liquid to a gas.
         """
-        return self.__data[19] * utils.UNIT.K
+        return self.__data[19] * utils.UREG.K
 
     @property
     @utils.raise_on_none('number_of_isotopes')
@@ -264,7 +264,7 @@ class Element(object):
         The specific heat of a substance is the amount of energy required to raise
         the temperature of 1 gram of the substance by 1°C.
         """
-        return self.__data[21] * utils.UNIT.J / (utils.UNIT.g * utils.UNIT.K)
+        return self.__data[21] * utils.UREG.J / (utils.UREG.g * utils.UREG.K)
 
     @property
     def number_of_shells(self) -> int:
