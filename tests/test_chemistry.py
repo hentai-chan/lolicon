@@ -17,7 +17,7 @@ class TestElement(unittest.TestCase):
         self.assertTrue(self.hydrogen != self.gold, msg="Hydrogen and gold don't represent the same Element")
 
     def test_repr(self):
-        self.assertEqual(repr(self.gold), 'Element(AtomicNumber=79)', msg="Representing formatting changed")
+        self.assertEqual(repr(self.gold), 'Element(Name=Gold)', msg="Representing formatting changed")
 
     def test_name(self):
         self.assertEqual(self.gold.name, 'Gold')

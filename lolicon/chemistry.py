@@ -28,7 +28,7 @@ class Element(object):
         return self.symbol
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(AtomicNumber={self.atomic_number})"
+        return f"{self.__class__.__name__}(Name={self.name})"
 
     #region operators
 
