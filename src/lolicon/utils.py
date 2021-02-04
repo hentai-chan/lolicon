@@ -21,8 +21,8 @@ def load_resource(resource: str, package: str) -> List[dict]:
             return json.load(file_handler)
 
 
-def query_db(db: str, sql: str, *args) -> List:
-    with resource_path('lolicon.data', db) as resource_handler:
+def query_db(db: str, sql: str, *args, local_: bool=False) -> List:
+    with resource_path('src.lolicon.data' if local_ else 'lolicon.data', db) as resource_handler:
         with closing(sqlite3.connect(resource_handler)) as connection:
             with closing(connection.cursor()) as cursor:
                 return cursor.execute(sql, *args).fetchall()

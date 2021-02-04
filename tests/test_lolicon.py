@@ -1,6 +1,6 @@
 import unittest
 
-import lolicon
+import src.lolicon as lolicon
 
 class TestLolicon(unittest.TestCase):
     """

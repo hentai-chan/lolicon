@@ -1,12 +1,12 @@
 import unittest
 
-from lolicon.chemistry import Element
+from src.lolicon.chemistry import Element
 
 class TestElement(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.gold = Element('Au')
-        cls.hydrogen = Element('H')
+        cls.gold = Element('Au', local_=True)
+        cls.hydrogen = Element('H', local_=True)
 
     @classmethod 
     def tearDown(cls):

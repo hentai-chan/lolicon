@@ -6,8 +6,8 @@ from typing import List, Tuple
 
 from pint.quantity import Quantity
 
-import lolicon.utils as utils
-from lolicon.utils import UREG
+from . import utils
+from .utils import UREG
 
 
 class Element(object):
@@ -22,8 +22,9 @@ class Element(object):
         >>> print(gold.number_of_protons)
         79
     """
-    def __init__(self, symbol: str) -> Element:
+    def __init__(self, symbol: str, local_: bool=False) -> Element:
         self.__symbol = symbol.capitalize()
+        self.__local = local_
 
     def __str__(self) -> str:
         return self.symbol
@@ -45,7 +46,7 @@ class Element(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db('elements.db', "SELECT * FROM Element WHERE Symbol=?", (self.symbol,))[0]
+        return utils.query_db('elements.db', "SELECT * FROM Element WHERE Symbol=?", (self.symbol,), local_=self.__local)[0]
 
     @property
     def symbol(self) -> str:

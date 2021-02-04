@@ -8,8 +8,8 @@ from typing import List, Tuple
 
 from pint.quantity import Quantity
 
-import lolicon.utils as utils
-from lolicon.utils import UREG
+from . import utils
+from .utils import UREG
 
 
 class Planet(object):
@@ -27,11 +27,12 @@ class Planet(object):
     This interface exposes planetary data from the NASA Jet Propulsion Laboratory
     as `pint` quantities. See reference data sheet at <https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html>
     """
-    def __init__(self, name: str) -> Planet:
+    def __init__(self, name: str, local_: bool=False) -> Planet:
         """
         Instantiate a new planet from the solar system.
         """
         self.__name = name.capitalize()
+        self.__local = local_
 
     def __str__(self) -> str:
         return self.name
@@ -53,7 +54,7 @@ class Planet(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db('planets.db', "SELECT * FROM Planet WHERE Name=?", (self.name,))[0]
+        return utils.query_db('planets.db', "SELECT * FROM Planet WHERE Name=?", (self.name,), local_=self.__local)[0]
 
     @property
     def name(self) -> str:
@@ -294,11 +295,12 @@ class Satellite(object):
     This interface exposes planetary data from the NASA Jet Propulsion Laboratory
     as `pint` quantities. See reference data sheet at <https://ssd.jpl.nasa.gov/?sat_phys_par>
     """
-    def __init__(self, name: str) -> Planet:
+    def __init__(self, name: str, local_: bool=False) -> Planet:
         """
         Instantiate a new satellite from the solar system.
         """
         self.__name = name.capitalize()
+        self.__local = local_
 
     def __str__(self) -> str:
         return self.name
@@ -320,7 +322,7 @@ class Satellite(object):
 
     @property
     def __data(self) -> Tuple:
-        return utils.query_db('satellites.db', "SELECT * FROM Satellite WHERE Name=?", (self.name,))[0]
+        return utils.query_db('satellites.db', "SELECT * FROM Satellite WHERE Name=?", (self.name,), local_=self.__local)[0]
 
     @property
     def name(self) -> str:

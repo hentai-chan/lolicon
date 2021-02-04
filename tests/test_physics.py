@@ -1,12 +1,12 @@
 import unittest
 
-from lolicon.physics import Planet, Satellite
+from src.lolicon.physics import Planet, Satellite
 
 class TestPlanet(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.mercury = Planet('Mercury')
-        cls.earth = Planet('Earth')
+        cls.mercury = Planet('Mercury', local_=True)
+        cls.earth = Planet('Earth', local_=True)
 
     @classmethod 
     def tearDown(cls):
@@ -80,7 +80,7 @@ class TestPlanet(unittest.TestCase):
         self.assertEqual(len(Planet.list()), 9, msg="There should be only 9 planets.")
 
     def test_value_error(self):
-        pluto = Planet('pluto')
+        pluto = Planet('pluto', local_=True)
         with self.assertRaises(ValueError) as context:
             _ = pluto.global_magnetic_field
         self.assertTrue('Global Magnetic Field of Pluto is unknown.')
@@ -88,8 +88,8 @@ class TestPlanet(unittest.TestCase):
 class TestSatellite(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.moon = Satellite('Moon')
-        cls.triton = Satellite('Triton')
+        cls.moon = Satellite('Moon', local_=True)
+        cls.triton = Satellite('Triton', local_=True)
 
     @classmethod 
     def tearDown(cls):
@@ -124,7 +124,7 @@ class TestSatellite(unittest.TestCase):
         self.assertEqual(len(Satellite.list()), 177, msg="There should be only 177 satellites.")
 
     def test_value_error(self):
-        methone, styx = Satellite('methone'), Satellite('styx')
+        methone, styx = Satellite('methone', local_=True), Satellite('styx', local_=True)
 
         with self.assertRaises(ValueError) as context:
             _ = methone.magnitude
