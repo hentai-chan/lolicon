@@ -1,6 +1,5 @@
-include CHANGELOG.md
+include *.md
 include LICENSE
-
-recursive-include lolicon/data *.json
-
+recursive-include requirements *.txt
+recursive-include src/lolicon/data *.db
 exclude exp.py
