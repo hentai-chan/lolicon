@@ -271,11 +271,11 @@ class Planet(object):
     #region methods
 
     @staticmethod
-    def list() -> List[Planet]:
+    def list(local_: bool=False) -> List[Planet]:
         """
         Return a list of all planets from the solar system.
         """
-        names = utils.query_db('planets.db', "SELECT ? FROM Planet", ('Name',))
+        names = utils.query_db('planets.db', "SELECT ? FROM Planet", ('Name',), local_=local_)
         return [Planet(name[0]) for name in names]
 
     #endregion
@@ -385,11 +385,11 @@ class Satellite(object):
     #region methods
 
     @staticmethod
-    def list() -> List[Satellite]:
+    def list(local_: bool=False) -> List[Satellite]:
         """
         Return a list of all satellites from the solar system.
         """
-        names = utils.query_db('satellites.db', "SELECT ? FROM Satellite", ('Name',))
+        names = utils.query_db('satellites.db', "SELECT ? FROM Satellite", ('Name',), local_=local_)
         return [Satellite(name[0]) for name in names]
 
     #endregion

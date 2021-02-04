@@ -293,11 +293,11 @@ class Element(object):
     #region methods
 
     @staticmethod
-    def list() -> List[Element]:
+    def list(local_: bool=False) -> List[Element]:
         """
         Return a list of all elements from the periodic system of elements.
         """
-        symbols = utils.query_db('elements.db', "SELECT ? FROM Element", ('Symbol',))
+        symbols = utils.query_db('elements.db', "SELECT ? FROM Element", ('Symbol',), local_=local_)
         return [Element(symbol[0]) for symbol in symbols]
 
     #endregion
