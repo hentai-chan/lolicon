@@ -91,5 +91,5 @@ class TestElement(unittest.TestCase):
         self.assertTrue(f'Number of valance of {self.gold.name} is None', str(context.exception))
 
     def test_list(self):
-        self.assertEqual(len(Element.list()), 118, msg="There should be only 118 elements.")
+        self.assertEqual(len(Element.list(local_=True)), 118, msg="There should be only 118 elements.")
      

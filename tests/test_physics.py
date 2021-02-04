@@ -77,7 +77,7 @@ class TestPlanet(unittest.TestCase):
         self.assertTrue(self.earth.global_magnetic_field, msg="Expected False")
 
     def test_list(self):
-        self.assertEqual(len(Planet.list()), 9, msg="There should be only 9 planets.")
+        self.assertEqual(len(Planet.list(local_=True)), 9, msg="There should be only 9 planets.")
 
     def test_value_error(self):
         pluto = Planet('pluto', local_=True)
@@ -121,7 +121,7 @@ class TestSatellite(unittest.TestCase):
         self.assertEqual(self.moon.albedo, 0.12, msg="Expected 0.12 (change of precision?)")
 
     def test_list(self):
-        self.assertEqual(len(Satellite.list()), 177, msg="There should be only 177 satellites.")
+        self.assertEqual(len(Satellite.list(local_=True)), 177, msg="There should be only 177 satellites.")
 
     def test_value_error(self):
         methone, styx = Satellite('methone', local_=True), Satellite('styx', local_=True)
