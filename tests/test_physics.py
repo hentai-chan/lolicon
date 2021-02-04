@@ -9,7 +9,7 @@ class TestPlanet(unittest.TestCase):
         cls.earth = Planet('Earth', local_=True)
 
     @classmethod 
-    def tearDown(cls):
+    def tearDownClass(cls):
         pass
 
     def test_operators(self):

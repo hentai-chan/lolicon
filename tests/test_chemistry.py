@@ -9,7 +9,7 @@ class TestElement(unittest.TestCase):
         cls.hydrogen = Element('H', local_=True)
 
     @classmethod 
-    def tearDown(cls):
+    def tearDownClass(cls):
         pass
 
     def test_operators(self):
