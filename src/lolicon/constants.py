@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pint.quantity import Quantity
 
-from lolicon.utils import UREG
+from .utils import UREG
 
 #region computer science
 
