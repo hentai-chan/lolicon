@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import warnings
 import functools
 import json
 import sqlite3
@@ -43,6 +44,14 @@ def raise_on_none(variable: str):
         return wrapper
     return decorator
 
+def raise_warning(msg: str, surpress_warning: bool=False):
+    """
+    Warning utility method. To be called at the top of a function block to indicate
+    cryptographically insecure methods or depreaction candidates. Enable `surpress_warning`
+    to ignore warning messages in unit tests.
+    """
+    if not surpress_warning:
+        warnings.warn(f"{Fore.YELLOW}{msg}{Style.RESET_ALL}", stacklevel=3)
 
 @raise_on_none('string')
 def str_to_bool(string: str) -> bool:
