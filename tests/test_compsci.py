@@ -32,4 +32,4 @@ class TestCryptography(unittest.TestCase):
         ...
 
     def test_hello_world(self):
-        self.assertEqual(cryptography.hello_world(), 'Hello, World!')
+        self.assertEqual(cryptography.hello_world(surpress_warning=True), 'Hello, World!')
