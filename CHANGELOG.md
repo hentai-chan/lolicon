@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.0.5a (05 February 2021)
+## Version 0.0.5a (09 February 2021)
 
 Revamps the entire project structure and defines a basic constant namespace.
 
@@ -13,7 +13,28 @@ print(const.MassOfProton)
 
 Furthermore, this version also adds a new `compsci` namespace for methods that
 belong in the realm of computer science. It also contains a `compsci.cryptography`
-sub-package for cryptographically insecure (but easy to implement) encryptions methods.
+sub-package for cryptographically insecure (but easy to implement) encryption methods:
+
+```python
+from lolicon.compsci import cryptography as crypto
+
+# coming soon!
+```
+
+On top of that, this version also provides a CLI for this module. At the moment,
+the only method implemented lets you read the log file content to help you troubleshoot
+errors:
+
+```cli
+# get help
+lolicon --help
+
+# confirm you're up-to-date
+lolicon --version
+
+# colorful log file output!
+lolicon log --read
+```
 
 ## Version 0.0.4a (16 January 2021)
 
