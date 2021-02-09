@@ -49,6 +49,9 @@ setup(
     include_package_data=True,
     package_dir={'': 'src'},
     packages=find_packages(where='src'),
+    entry_points={
+        'console_scripts': ['%s=%s.__main__:cli' % (package_name, package_name)]
+    },
     classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
