@@ -1,3 +1,4 @@
+import string
 import unittest
 
 import src.lolicon.compsci as compsci
@@ -49,3 +50,33 @@ class TestCryptography(unittest.TestCase):
         source = 'THEATTACKTAKESPLACEAT2AM'
         cypher = '- .... . .- - - .- -.-. -.- - .- -.- . ... .--. .-.. .- -.-. . .- - ..--- .- --'
         self.assertEqual(cryptography.decrypt_morse(cypher), source)
+
+    def test_encrypt_caesar_cypher(self):
+        # default seed
+        source = 'THE SECRET PASSWORD IS ROSEBUD'
+        cypher = 'BPM AMKZMB XIAAEWZL QA ZWAMJCL'
+        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=8), cypher)
+        # lowercase only
+        source = 'the crazy programmer'
+        cypher = 'vjg etcba rtqitcoogt'
+        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=2, seed=string.ascii_lowercase), cypher)
+        # using special characters and numbers
+        seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
+        source = 'Hello, World!'
+        cypher = 'UryyB] 9BEyq.'
+        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=13, seed=seed), cypher)
+
+    def test_decrypt_caesar_cypher(self):
+        # default seed
+        source = 'THE SECRET PASSWORD IS ROSEBUD'
+        cypher = 'BPM AMKZMB XIAAEWZL QA ZWAMJCL'
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8), source)
+        # lowercase only
+        source = 'the crazy programmer'
+        cypher = 'vjg etcba rtqitcoogt'
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2, seed=string.ascii_lowercase), source)
+        # using special characters and numbers
+        seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
+        source = 'Hello, World!'
+        cypher = 'UryyB] 9BEyq.'
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), source)
