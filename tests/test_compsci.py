@@ -1,8 +1,12 @@
+#!/usr/bin/env python3
+
 import string
 import unittest
 
+import pytest
 import src.lolicon.compsci as compsci
 from src.lolicon.compsci import cryptography
+
 
 class ComputerScience(unittest.TestCase):
     @classmethod
@@ -31,52 +35,38 @@ class TestCryptography(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         pass
-
-    def test_encrypt_morse(self):
+    
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_morse_code(self):
+        from_morse = lambda msg: msg.upper().replace(' ', '')
         # case-insensitive
         source = 'Hello World'
-        cypher = '.... . .-.. .-.. --- .-- --- .-. .-.. -..'
-        self.assertEqual(cryptography.encrypt_morse(source), cypher)
+        cypher = cryptography.encrypt_morse_code(source)
+        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(source))
         # numeric support
         source = 'The attack takes place at 2 AM'
-        cypher = '- .... . .- - - .- -.-. -.- - .- -.- . ... .--. .-.. .- -.-. . .- - ..--- .- --'
-        self.assertEqual(cryptography.encrypt_morse(source), cypher)
+        cypher = cryptography.encrypt_morse_code(source)
+        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(source))        
 
-    def test_decrypt_morse(self):
-        # result always in uppercase without stripped off all whitespaces
-        source = 'HELLOWORLD'
-        cypher = '.... . .-.. .-.. --- .-- --- .-. .-.. -..'
-        self.assertEqual(cryptography.decrypt_morse(cypher), source)
-        source = 'THEATTACKTAKESPLACEAT2AM'
-        cypher = '- .... . .- - - .- -.-. -.- - .- -.- . ... .--. .-.. .- -.-. . .- - ..--- .- --'
-        self.assertEqual(cryptography.decrypt_morse(cypher), source)
-
-    def test_encrypt_caesar_cypher(self):
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_caesar_cypher(self):
         # default seed
-        source = 'THE SECRET PASSWORD IS ROSEBUD'
-        cypher = 'BPM AMKZMB XIAAEWZL QA ZWAMJCL'
-        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=8), cypher)
-        # lowercase only
-        source = 'the crazy programmer'
-        cypher = 'vjg etcba rtqitcoogt'
-        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=2, seed=string.ascii_lowercase), cypher)
-        # using special characters and numbers
-        seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
-        source = 'Hello, World!'
-        cypher = 'UryyB] 9BEyq.'
-        self.assertEqual(cryptography.encrypt_caesar_cypher(source, shift=13, seed=seed), cypher)
-
-    def test_decrypt_caesar_cypher(self):
-        # default seed
-        source = 'THE SECRET PASSWORD IS ROSEBUD'
-        cypher = 'BPM AMKZMB XIAAEWZL QA ZWAMJCL'
+        source = 'HELLO WORLD'
+        cypher = cryptography.encrypt_caesar_cypher(source, shift=8)
         self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8), source)
         # lowercase only
-        source = 'the crazy programmer'
-        cypher = 'vjg etcba rtqitcoogt'
+        source = 'help me i am insecure'
+        cypher = cryptography.encrypt_caesar_cypher(source, shift=2, seed=string.ascii_lowercase)
         self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2, seed=string.ascii_lowercase), source)
         # using special characters and numbers
         seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
-        source = 'Hello, World!'
-        cypher = 'UryyB] 9BEyq.'
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), source)
+        source = 'I sure hope no one will read this message!'
+        cypher = cryptography.encrypt_caesar_cypher(source, shift=13, seed=seed)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), source)        
+
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_transposition_cypher(self):
+        source = 'Common sense is not so common.'
+        cypher = cryptography.encrypt_transposition_cypher(source, key=8)
+        self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), source)
+        
