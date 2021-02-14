@@ -2,23 +2,23 @@
 
 from __future__ import annotations
 
-from math import pow
+import math
 
 def dec2bin(dec: int) -> str:
     """
     Suppose that `dec` is an unsigned integer. Convert this number into its
     binary representation.
     """
-    bin = []
+    bin_ = []
     while dec != 0:
         dec, r = divmod(dec, 2)
-        bin.append(str(r))
-    return ''.join(reversed(bin))
+        bin_.append(str(r))
+    return ''.join(reversed(bin_))
 
 
-def bin2dec(bin: str) -> int:
+def bin2dec(bin_: str) -> int:
     """
     Suppose that `bin` is a valid binary number. Convert this number into its
     decimal representation.
     """
-    return sum(map(lambda i: int(bin[i]) * pow(2, i), reversed(range(len(bin)))))
+    return sum(map(lambda i: int(bin_[i]) * math.pow(2, i), reversed(range(len(bin_)))))
