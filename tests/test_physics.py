@@ -117,7 +117,7 @@ class TestSatellite(unittest.TestCase):
     def test_magnitude(self):
         self.assertEqual(self.moon.magnitude, -12.74, msg="Expected -12.74 (change of precision?)")
 
-    def test_magnitude(self):
+    def test_albedo(self):
         self.assertEqual(self.moon.albedo, 0.12, msg="Expected 0.12 (change of precision?)")
 
     def test_list(self):
