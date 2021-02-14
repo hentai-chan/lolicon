@@ -21,4 +21,4 @@ def bin2dec(bin_: str) -> int:
     Suppose that `bin` is a valid binary number. Convert this number into its
     decimal representation.
     """
-    return sum(map(lambda i: int(bin_[i]) * math.pow(2, i), reversed(range(len(bin_)))))
+    return sum(map(lambda i: int(bin_[::-1][i]) * math.pow(2, i), range(len(bin_))))
