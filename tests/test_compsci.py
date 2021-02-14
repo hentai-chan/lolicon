@@ -22,7 +22,7 @@ class ComputerScience(unittest.TestCase):
         self.assertEqual(compsci.bin2dec('100110111'), 311)
         self.assertEqual(compsci.bin2dec('1101101101011'), 7019)
 
-    def test_bin2dec(self):
+    def test_dec2bin(self):
         self.assertEqual(compsci.dec2bin(22), '10110')
         self.assertEqual(compsci.dec2bin(311), '100110111')
         self.assertEqual(compsci.dec2bin(7019), '1101101101011')
