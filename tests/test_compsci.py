@@ -69,4 +69,3 @@ class TestCryptography(unittest.TestCase):
         source = 'Common sense is not so common.'
         cypher = cryptography.encrypt_transposition_cypher(source, key=8)
         self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), source)
-        
