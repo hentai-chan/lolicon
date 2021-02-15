@@ -69,3 +69,10 @@ class TestCryptography(unittest.TestCase):
         source = 'Common sense is not so common.'
         cypher = cryptography.encrypt_transposition_cypher(source, key=8)
         self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), source)
+
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_affine_cypher(self):
+        key = cryptography.generate_affine_key()
+        source = 'A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.'
+        cypher = cryptography.encrypt_affine_cypher(source, key)
+        self.assertEqual(cryptography.decrypt_affine_cypher(cypher, key), source)
