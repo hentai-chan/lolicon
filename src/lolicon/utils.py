@@ -114,17 +114,18 @@ def query_db(db: str, sql: str, *args, local_: bool=False) -> List:
 #endregion
 
 def raise_on_none(variable: str):
+    log_msg = f"{variable} is None"
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             try:
                 if func(*args, **kwargs) is None:
-                    raise ValueError(
-                        f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
+                    logger.error(log_msg)
+                    raise ValueError(f"{Fore.RED}{log_msg}{Style.RESET_ALL}")
                 return func(*args, **kwargs)
             except TypeError:
-                raise ValueError(
-                    f"{Fore.RED}{variable} is None{Style.RESET_ALL}")
+                logger.error(log_msg)
+                raise ValueError(f"{Fore.RED}{log_msg}{Style.RESET_ALL}")
         return wrapper
     return decorator
 
@@ -132,6 +133,7 @@ def raise_warning(msg: str):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            logger.warning(msg)
             warnings.warn(f"{Fore.YELLOW}{msg}{Style.RESET_ALL}", stacklevel=3)
             return func(*args, **kwargs)
         return wrapper
