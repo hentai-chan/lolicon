@@ -1,9 +1,19 @@
 #!/usr/bin/env python3
 
+"""
+Cryptography
+============
+
+TODO: Write namespace description.
+"""
+
 import math
 import string
+from random import randint
+from typing import Tuple
 
 from .. import utils
+from ..mathematics import gcd, mod_inverse
 from ..utils import logger
 
 __warning_msg = "You're using an cryptographically insecure method."
@@ -174,10 +184,80 @@ def decrypt_transposition_cypher(cypher: str, key: int) -> str:
             row += 1
     return ''.join(source)
 
+def __split_affine_key(key: int, seed: str) -> Tuple[int, int]:
+    return (key // len(seed), key % len(seed))
+
+def __validate_keys(key1: int, key2: int, seed: str) -> None:
+    if key1 == 1 or key2 == 0:
+        logger.error(f"First check failed: extremely insecure key combination for {key1=}, {key2=}")
+        raise ValueError(f"The affine cypher becomes extremely vulnerable when {key1=} or {key2=}.")
+
+    if key1 < 0 or key2 < 0 or key2 > len(seed) - 1:
+        logger.error(f"Second check failed: invalid key range for {key1=}, {key2=}, {len(seed)=}")
+        raise ValueError(f"{key1=} must be greater than 0 and {key2=} must be between 0 and {len(seed)-1}.")
+
+    if gcd(key1, len(seed)) != 1:
+        logger.error(f"Third check failed: {key1=} and {len(seed)=} are not relatively prime")
+        raise ValueError(f"{key1=} and {len(seed)=} are not relatively prime.")
+
+def generate_affine_key(seed: str=string.printable) -> int:
+    """
+    TODO: write doc string
+    """
+    seed_len = len(seed)
+    while True:
+        key1, key2 = randint(2, seed_len), randint(2, seed_len)
+        if gcd(key1, seed_len) == 1:
+            return key1 * seed_len + key2
 
 @utils.raise_warning(__warning_msg)
-def encrypt_vigenere_cypher():
+def encrypt_affine_cypher(msg: str, key: int, seed: str=string.printable) -> str:
+    """
+    TODO: write doc string + cleanup implementation
+
+    Notes
+    -----
+    - coming soon!
+    """
+    cypher = []
+    key1, key2 = __split_affine_key(key, seed)
+    __validate_keys(key1, key2, seed)
+
+    for char in msg:
+        if char in seed:
+            index = seed.find(char)
+            cypher.append(seed[(index * key1 + key2) % len(seed)])
+        else:
+            cypher.append(char)
+    return ''.join(cypher)
+
+def decrypt_affine_cypher(cypher: str, key: int, seed: str=string.printable) -> str:
+    """
+    TODO: write doc string + cleanup implementation
+    """
+    source = []
+    key1, key2 = __split_affine_key(key, seed)
+    __validate_keys(key1, key2, seed)
+    key1_mod_inverse = mod_inverse(key1, len(seed))
+
+    for char in cypher:
+        if char in seed:
+            index = seed.find(char)
+            source.append(seed[(index - key2) * key1_mod_inverse % len(seed)])
+        else:
+            source.append(char)
+    return ''.join(source)
+
+
+@utils.raise_warning(__warning_msg)
+def encrypt_vigenere_cypher(msg: str) -> str:
+    """
+    TODO: write doc string + write implementation
+    """
     raise NotImplementedError()
 
-def decrypt_vigenere_cypher():
+def decrypt_vigenere_cypher(cypher: str) -> str:
+    """
+    TODO: write doc string + write implementation
+    """
     raise NotImplementedError()
