@@ -9,18 +9,22 @@ import os
 import platform
 import sqlite3
 import warnings
+from collections import namedtuple
 from contextlib import closing
 from importlib.resources import path as resource_path
 from pathlib import Path
 from typing import List
 
-import pint
 import click
+import pint
 from colorama import Fore, Style
+from rich.console import Console
+from rich.table import Table
 
 from .__init__ import package_name
 
 UREG = pint.UnitRegistry()
+CONSOLE = Console()
 
 #region terminal formatting
 
@@ -86,15 +90,21 @@ def read_log():
             print_on_warning("Operation suspended: log file is empty.")
             return
 
-        click.secho("\nLOG FILE CONTENT\n", fg='bright_magenta')
+        table = Table(title="Log File Content")
+        table.add_column('Timestamp', style='cyan')
+        table.add_column('Level Name')
+        table.add_column('File Name')
+        table.add_column('Line Number')
+        table.add_column('Message', style='green')
 
-        for line in log:
-            entry = line.strip('\n').split('::')
-            timestamp, levelname, lineno, name, message = entry[0], entry[1], entry[2], entry[3], entry[4]
-            click.secho(f"[{timestamp}] ", fg='cyan', nl=False)
-            click.secho(f"{levelname}\t", fg=color_map[levelname], blink=(levelname=='CRITICAL'), nl=False)
-            click.secho(message, fg='bright_green', nl=False)
-            click.secho(f" ({name}@{lineno})")
+        parse = lambda line: line.strip('\n').split('::')
+        Entry = namedtuple('Entry', 'timestamp levelname lineno name message')
+        entries = [Entry(parse(line)[0], parse(line)[1], parse(line)[2], parse(line)[3], parse(line)[4]) for line in log]
+
+        for entry in entries:
+            table.add_row(entry.timestamp, f"[bold {color_map[entry.levelname]}]{entry.levelname}", entry.name, entry.lineno, entry.message)
+        
+        CONSOLE.print(table)
 
 #endregion
 
