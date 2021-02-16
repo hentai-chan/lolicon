@@ -158,6 +158,7 @@ def encrypt_transposition_cypher(msg: str, key: int) -> str:
     - The encryption becomes weaker if `key` is not much smaller than `len(msg)`
     - Hence, the magnitude of possible keys makes this method vulnerable for
     brute force attacks if `msg` is not very long
+    - There are about `range(2, len(seed))` possible key combinations for this cypher
     """
     cypher = [''] * key
     for col in range(key):
@@ -187,7 +188,7 @@ def decrypt_transposition_cypher(cypher: str, key: int) -> str:
 def __split_affine_key(key: int, seed: str) -> Tuple[int, int]:
     return (key // len(seed), key % len(seed))
 
-def __validate_keys(key1: int, key2: int, seed: str) -> None:
+def __validate_affine_keys(key1: int, key2: int, seed: str) -> None:
     if key1 == 1 or key2 == 0:
         logger.error(f"First check failed: extremely insecure key combination for {key1=}, {key2=}")
         raise ValueError(f"The affine cypher becomes extremely vulnerable when {key1=} or {key2=}.")
@@ -202,7 +203,7 @@ def __validate_keys(key1: int, key2: int, seed: str) -> None:
 
 def generate_affine_key(seed: str=string.printable) -> int:
     """
-    TODO: write doc string
+    Generate a new key for the affine cypher encryption algorithm.
     """
     seed_len = len(seed)
     while True:
@@ -213,40 +214,45 @@ def generate_affine_key(seed: str=string.printable) -> int:
 @utils.raise_warning(__warning_msg)
 def encrypt_affine_cypher(msg: str, key: int, seed: str=string.printable) -> str:
     """
-    TODO: write doc string + cleanup implementation
+    Encrypt a message using the affine cypher. The affine cypher is a combination
+    of the multiplicative cypher and the caesar cypher. Because the multiplicative
+    cypher always maps the first character onto itself, another encryption method
+    is applied immediately after the multiplicative cypher. Since the first key
+    must be relatively prime to the seed length, not every key qualifies for this
+    encryption method. For this reason, use the `generate_affine_key` method to
+    create a key.
+
+    Example
+    -------
+    ```
+    >>> from lolicon.compsci import cryptography as crypto
+    >>> key = crypto.generate_affine_key()
+    >>> msg = "Hello, World!"
+    >>> cypher = crypto.encrypt_affine_cypher(msg, key)
+    >>> print(msg == crypto.decrypt_affine_cypher(cypher, key))
+    True
+    ```
 
     Notes
     -----
-    - coming soon!
+    - The seed dictates language support
+    - Using the default seed (`len(seed)=100`), there are `key1 * key2 = 100 * 100 = 10000`
+    key combinations to crack this cypher
     """
-    cypher = []
     key1, key2 = __split_affine_key(key, seed)
-    __validate_keys(key1, key2, seed)
-
-    for char in msg:
-        if char in seed:
-            index = seed.find(char)
-            cypher.append(seed[(index * key1 + key2) % len(seed)])
-        else:
-            cypher.append(char)
-    return ''.join(cypher)
+    __validate_affine_keys(key1, key2, seed)
+    encrypt = lambda char: seed[(seed.find(char) * key1 + key2) % len(seed)]
+    return ''.join((encrypt(char) if char in seed else char for char in msg))
 
 def decrypt_affine_cypher(cypher: str, key: int, seed: str=string.printable) -> str:
     """
-    TODO: write doc string + cleanup implementation
+    Decrypt an affine cypher encrypted message. Note that you need both, the key
+    and seed, to decypher a message.
     """
-    source = []
     key1, key2 = __split_affine_key(key, seed)
-    __validate_keys(key1, key2, seed)
-    key1_mod_inverse = mod_inverse(key1, len(seed))
-
-    for char in cypher:
-        if char in seed:
-            index = seed.find(char)
-            source.append(seed[(index - key2) * key1_mod_inverse % len(seed)])
-        else:
-            source.append(char)
-    return ''.join(source)
+    __validate_affine_keys(key1, key2, seed)
+    decrypt = lambda char: seed[(seed.find(char) - key2) * mod_inverse(key1, len(seed)) % len(seed)]
+    return ''.join((decrypt(char) if char in seed else char for char in cypher))
 
 
 @utils.raise_warning(__warning_msg)
