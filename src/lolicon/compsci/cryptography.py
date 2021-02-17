@@ -14,6 +14,7 @@ from typing import Tuple
 
 from .. import utils
 from ..mathematics import gcd, mod_inverse
+from ..compsci import dec2bin, bin2dec
 from ..utils import logger
 
 __warning_msg = "You're using an cryptographically insecure method."
@@ -71,6 +72,10 @@ def encrypt_morse_code(msg: str) -> str:
     ```
     Hence, `HELLO = .... . .-.. .-.. ---`.
 
+    Notes
+    -----
+    - This encryption method only works with letters from the English alphabet
+
     References
     ----------
     - <https://en.wikipedia.org/wiki/Morse_code>
@@ -88,6 +93,59 @@ def decrypt_morse_code(cypher: str) -> str:
     """
     translate = {value: key for key, value in __morse_code.items()}
     return ''.join(translate[char] for char in cypher.split(' '))
+
+@utils.raise_warning(__warning_msg)
+def encrypt_binary(msg: str) -> str:
+    """
+    Encrypt a message into a sequence of binary numbers. Computers store characters
+    as number by using standardized character encoding systems. Since python uses
+    UTF-8 as default character code map, that's what is also used in this encryption
+    method.
+
+    ASCII Table
+    -----------
+    ```
+    A=65  I=73  Q=81  Y=89
+    B=66  J=74  R=82  Z=90
+    C=67  K=75  S=83
+    D=68  L=76  T=84
+    E=69  M=77  U=85
+    F=70  N=78  V=86
+    G=71  O=79  W=87
+    H=72  P=80  X=88
+    ```
+
+    Binary Encoding
+    ---------------
+    ```
+    65=01000001  73=01001001  81=01010001   89=01011001
+    66=01000010  74=01001010  82=01010010   90=01011010
+    67=01000011  75=01001011  83=01010011
+    68=01000100  76=01001100  84=01010100
+    69=01000101  77=01001101  85=01010101
+    70=01000110  78=01001110  86=01010110
+    71=01000111  79=01001111  87=01010111
+    72=01001000  80=01010000  88=01011000
+    ```
+
+    Encrypting a 'HELLO' into binary results in
+    ```
+      H=72     E=69     L=76     L=76     0=79
+    01001000 01000101 01001100 01001100 01001111
+    ```
+
+    References
+    ----------
+    - <https://en.wikipedia.org/wiki/Character_encoding>
+    - <https://en.wikipedia.org/wiki/Binary_number>
+    """
+    return ' '.join((dec2bin(ord(char)) for char in msg))
+
+def decrypt_binary(cypher: str) -> str:
+    """
+    Decrypts a binary message by mapping their value to UTF-8.
+    """
+    return ''.join((chr(bin2dec(char)) for char in cypher.split()))
 
 @utils.raise_warning(__warning_msg)
 def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_uppercase) -> str:
@@ -109,8 +167,10 @@ def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_upperca
 
     Notes
     -----
+    - The seed dictates language support
     - The ROT13 cypher is a special case of the caesar cypher (set `shift=13`)
-    - A slightly stronger cypher can be obtained by using a shuffled `seed`
+    - A slightly stronger cypher can be obtained by using a shuffled `seed` with
+    `math.factorial(26) * len(msg)` possible key combinations
     - This cypher's weakness is proportional to `len(msg)`, i.e. longer messages 
     are easier to break (the unicity distance of English equals 27.6 letters of
     cypher text for a simple substitution using a mixed alphabet as seed)
@@ -159,6 +219,8 @@ def encrypt_transposition_cypher(msg: str, key: int) -> str:
     - Hence, the magnitude of possible keys makes this method vulnerable for
     brute force attacks if `msg` is not very long
     - There are about `range(2, len(seed))` possible key combinations for this cypher
+    - There is no restriction on the type of characters, so this encryption method
+    provides international language support
     """
     cypher = [''] * key
     for col in range(key):
@@ -235,9 +297,9 @@ def encrypt_affine_cypher(msg: str, key: int, seed: str=string.printable) -> str
 
     Notes
     -----
-    - The seed dictates language support
     - Using the default seed (`len(seed)=100`), there are `key1 * key2 = 100 * 100 = 10000`
     key combinations to crack this cypher
+    - The seed dictates language support
     """
     key1, key2 = __split_affine_key(key, seed)
     __validate_affine_keys(key1, key2, seed)
@@ -254,6 +316,7 @@ def decrypt_affine_cypher(cypher: str, key: int, seed: str=string.printable) -> 
     decrypt = lambda char: seed[(seed.find(char) - key2) * mod_inverse(key1, len(seed)) % len(seed)]
     return ''.join((decrypt(char) if char in seed else char for char in cypher))
 
+# next!s
 
 @utils.raise_warning(__warning_msg)
 def encrypt_vigenere_cypher(msg: str) -> str:
