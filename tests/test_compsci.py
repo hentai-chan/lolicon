@@ -23,9 +23,9 @@ class ComputerScience(unittest.TestCase):
         self.assertEqual(compsci.bin2dec('1101101101011'), 7019)
 
     def test_dec2bin(self):
-        self.assertEqual(compsci.dec2bin(22), '10110')
-        self.assertEqual(compsci.dec2bin(311), '100110111')
-        self.assertEqual(compsci.dec2bin(7019), '1101101101011')
+        self.assertEqual(compsci.dec2bin(22), '00010110')
+        self.assertEqual(compsci.dec2bin(311, pad_zero=10), '0100110111')
+        self.assertEqual(compsci.dec2bin(7019, pad_zero=16), '0001101101101011')
 
 class TestCryptography(unittest.TestCase):
     @classmethod
@@ -40,39 +40,45 @@ class TestCryptography(unittest.TestCase):
     def test_morse_code(self):
         from_morse = lambda msg: msg.upper().replace(' ', '')
         # case-insensitive
-        source = 'Hello World'
-        cypher = cryptography.encrypt_morse_code(source)
-        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(source))
+        msg = 'Hello World'
+        cypher = cryptography.encrypt_morse_code(msg)
+        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(msg))
         # numeric support
-        source = 'The attack takes place at 2 AM'
-        cypher = cryptography.encrypt_morse_code(source)
-        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(source))        
+        msg = 'The attack takes place at 2 AM'
+        cypher = cryptography.encrypt_morse_code(msg)
+        self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(msg))        
+
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_encrypt_binary(self):
+        msg = 'Hello, World!'
+        cypher = cryptography.encrypt_binary(msg)
+        self.assertEqual(cryptography.decrypt_binary(cypher), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_caesar_cypher(self):
         # default seed
-        source = 'HELLO WORLD'
-        cypher = cryptography.encrypt_caesar_cypher(source, shift=8)
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8), source)
+        msg = 'HELLO WORLD'
+        cypher = cryptography.encrypt_caesar_cypher(msg, shift=8)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8), msg)
         # lowercase only
-        source = 'help me i am insecure'
-        cypher = cryptography.encrypt_caesar_cypher(source, shift=2, seed=string.ascii_lowercase)
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2, seed=string.ascii_lowercase), source)
+        msg = 'help me i am insecure'
+        cypher = cryptography.encrypt_caesar_cypher(msg, shift=2, seed=string.ascii_lowercase)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2, seed=string.ascii_lowercase), msg)
         # using special characters and numbers
         seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
-        source = 'I sure hope no one will read this message!'
-        cypher = cryptography.encrypt_caesar_cypher(source, shift=13, seed=seed)
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), source)        
+        msg = 'I sure hope no one will read this message!'
+        cypher = cryptography.encrypt_caesar_cypher(msg, shift=13, seed=seed)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), msg)        
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_transposition_cypher(self):
-        source = 'Common sense is not so common.'
-        cypher = cryptography.encrypt_transposition_cypher(source, key=8)
-        self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), source)
+        msg = 'Common sense is not so common.'
+        cypher = cryptography.encrypt_transposition_cypher(msg, key=8)
+        self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_affine_cypher(self):
         key = cryptography.generate_affine_key()
-        source = 'A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.'
-        cypher = cryptography.encrypt_affine_cypher(source, key)
-        self.assertEqual(cryptography.decrypt_affine_cypher(cypher, key), source)
+        msg = 'A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.'
+        cypher = cryptography.encrypt_affine_cypher(msg, key)
+        self.assertEqual(cryptography.decrypt_affine_cypher(cypher, key), msg)
