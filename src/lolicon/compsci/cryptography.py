@@ -9,7 +9,7 @@ TODO: Write namespace description.
 
 import math
 import string
-from random import randint
+from random import randint, shuffle
 from typing import Tuple
 
 from .. import utils
@@ -19,7 +19,6 @@ from ..utils import logger
 
 __warning_msg = "You're using an cryptographically insecure method."
 
-# international morse code map suitable for english correspondence
 __morse_code = {
     'A': '.-',
     'B': '-...',
@@ -174,6 +173,7 @@ def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_upperca
     - This cypher's weakness is proportional to `len(msg)`, i.e. longer messages 
     are easier to break (the unicity distance of English equals 27.6 letters of
     cypher text for a simple substitution using a mixed alphabet as seed)
+    - This method is also called simple substitution cypher if the seed is shuffled
 
     References
     ----------
@@ -237,15 +237,15 @@ def decrypt_transposition_cypher(cypher: str, key: int) -> str:
     occurring placeholder characters (`-`) to prevent index out of range errors.
     """
     num_of_col = math.ceil(len(cypher) / key)
-    source = [''] * num_of_col
+    msg = [''] * num_of_col
     col, row = 0, 0
     for char in cypher:
-        source[col] += char
+        msg[col] += char
         col += 1
         if (col == num_of_col) or (col == num_of_col - 1 and row >= key - ((num_of_col * key) - len(cypher))):
             col = 0
             row += 1
-    return ''.join(source)
+    return ''.join(msg)
 
 def __split_affine_key(key: int, seed: str) -> Tuple[int, int]:
     return (key // len(seed), key % len(seed))
@@ -316,17 +316,114 @@ def decrypt_affine_cypher(cypher: str, key: int, seed: str=string.printable) -> 
     decrypt = lambda char: seed[(seed.find(char) - key2) * mod_inverse(key1, len(seed)) % len(seed)]
     return ''.join((decrypt(char) if char in seed else char for char in cypher))
 
-# next!s
+def __validate_vigenere_key(key: str, seed: str=string.ascii_lowercase):
+    if not all(char in seed for char in key):
+        err_msg = f"{key=} characters are not a subset of {seed=}"
+        logger.error(err_msg)
+        raise KeyError(err_msg)
 
 @utils.raise_warning(__warning_msg)
-def encrypt_vigenere_cypher(msg: str) -> str:
+def encrypt_vigenere_cypher(msg: str, key: str, seed: str=string.ascii_lowercase) -> str:
     """
-    TODO: write doc string + write implementation
-    """
-    raise NotImplementedError()
+    Encrypt a message using the vigenere cypher. All characters in `msg` and `key`
+    should be limited to the `seed` set. IMPORTANT: Any character in `msg` that's
+    not in `seed` will be skipped during the encryption process. Use `string.printable`
+    as a seed to extend the scope of encryptionable characters in `msg` for English
+    messages.
 
-def decrypt_vigenere_cypher(cypher: str) -> str:
+    Example
+    -------
+    ```
+    >>> import string
+    >>> from random import shuffle
+    >>> from lolicon.compsci import cryptography as crypto
+    >>> # generate random key from ASCII character set
+    >>> key = list(string.printable)
+    >>> shuffle(key)
+    >>> key = ''.join(key)
+    >>> msg = 'Hello, World!'
+    >>> cypher = crypto.encrypt_vigenere_cypher(msg, key, string.printable)
+    >>> print(msg == crypto.decrypt_vigenere_cypher(cypher, key, string.printable))
+    True
+    ```
+
+    Suppose your key is `CLOCK` and your message `HELLO`. Then this function maps
+    ```
+                                  2
+                    1     0       3     4
+            A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+          -----------------------------------------------------
+        A | A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+        B | B C D E F G H I J K L M N O P Q R S T U V W X Y Z A
+    0,3 C | C D E F G H I J K L M N O P Q R S T U V W X Y Z A B
+        D | D E F G H I J K L M N O P Q R S T U V W X Y Z A B C
+        E | E F G H I J K L M N O P Q R S T U V W X Y Z A B C D
+        F | F G H I J K L M N O P Q R S T U V W X Y Z A B C D E
+        G | G H I J K L M N O P Q R S T U V W X Y Z A B C D E F
+        H | H I J K L M N O P Q R S T U V W X Y Z A B C D E F G
+        I | I J K L M N O P Q R S T U V W X Y Z A B C D E F G H
+        J | J K L M N O P Q R S T U V W X Y Z A B C D E F G H I
+      4 K | K L M N O P Q R S T U V W X Y Z A B C D E F G H I J
+      1 L | L M N O P Q R S T U V W X Y Z A B C D E F G H I J K
+        M | M N O P Q R S T U V W X Y Z A B C D E F G H I J K L
+        N | N O P Q R S T U V W X Y Z A B C D E F G H I J K L M
+      2 O | O P Q R S T U V W X Y Z A B C D E F G H I J K L M N
+        P | P Q R S T U V W X Y Z A B C D E F G H I J K L M N O
+        Q | Q R S T U V W X Y Z A B C D E F G H I J K L M N O P
+        R | R S T U V W X Y Z A B C D E F G H I J K L M N O P Q
+      2 S | S T U V W X Y Z A B C D E F G H I J K L M N O P Q R
+        T | T U V W X Y Z A B C D E F G H I J K L M N O P Q R S
+        U | U V W X Y Z A B C D E F G H I J K L M N O P Q R S T
+        V | V W X Y Z A B C D E F G H I J K L M N O P Q R S T U
+        W | W X Y Z A B C D E F G H I J K L M N O P Q R S T U V
+        X | X Y Z A B C D E F G H I J K L M N O P Q R S T U V W
+        Y | Y Z A B C D E F G H I J K L M N O P Q R S T U V W X
+        Z | Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
+    ```
+
+    So, enumerating the key characters along the left-most column we get
+    ```
+    0 1 2 3 4 # index
+    H E L L O # msg
+    C L O C K # key
+    J P Z N Y # cypher
+    ```
+
+    Notes
+    -----
+    - Because it uses more than one set of substitutions, it is also called a
+    polyaplhabetic substitution cypher
+    - Longer keys enhance the encryption strength
+    """    
+    cypher = []
+    offset = 0
+    __validate_vigenere_key(key, seed)
+    encrypt = lambda index: (seed.find(msg[index]) + seed.find(key[(index - offset) % len(key)])) % len(seed)
+
+    for index in range(len(msg)):
+        if msg[index] in seed:
+            cypher.append(seed[encrypt(index)])
+        else:
+            cypher.append(msg[index])
+            offset += 1
+
+    return ''.join(cypher)
+
+def decrypt_vigenere_cypher(cypher: str, key: str, seed: str=string.ascii_lowercase) -> str:
     """
-    TODO: write doc string + write implementation
+    Decrypt a message using the vigenere cypher. Note that you need both, the key
+    and seed, to decypher a message.
     """
-    raise NotImplementedError()
+    offset = 0
+    msg = []
+    __validate_vigenere_key(key, seed)
+    decrypt = lambda index: (seed.find(cypher[index]) - seed.find(key[(index - offset) % len(key)])) % len(seed)
+
+    for index in range(len(cypher)):
+        if cypher[index] in seed:
+            msg.append(seed[decrypt(index)])
+        else:
+            msg.append(cypher[index])
+            offset += 1
+
+    return ''.join(msg)
