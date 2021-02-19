@@ -24,8 +24,8 @@ class ComputerScience(unittest.TestCase):
 
     def test_dec2bin(self):
         self.assertEqual(compsci.dec2bin(22), '00010110')
-        self.assertEqual(compsci.dec2bin(311, pad_zero=10), '0100110111')
-        self.assertEqual(compsci.dec2bin(7019, pad_zero=16), '0001101101101011')
+        self.assertEqual(compsci.dec2bin(311, padding=10), '0100110111')
+        self.assertEqual(compsci.dec2bin(7019, padding=16), '0001101101101011')
 
 class TestCryptography(unittest.TestCase):
     @classmethod
@@ -82,3 +82,20 @@ class TestCryptography(unittest.TestCase):
         msg = 'A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.'
         cypher = cryptography.encrypt_affine_cypher(msg, key)
         self.assertEqual(cryptography.decrypt_affine_cypher(cypher, key), msg)
+
+    @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_vigenere_cypher(self):
+        # default settings
+        key = 'jacqueline'
+        msg = 'hello, world'
+        cypher = cryptography.encrypt_vigenere_cypher(msg, key)
+        self.assertEqual(cryptography.decrypt_vigenere_cypher(cypher, key), msg)
+        # shuffled key with extended seed
+        key = string.printable
+        sorted(key)
+        msg = """
+            You fall in love with body parts, I connect mentally with my
+            female counterpart before we bond physically
+        """ # nujabes - think different
+        cypher = cryptography.encrypt_vigenere_cypher(msg, key, string.printable)
+        self.assertEqual(cryptography.decrypt_vigenere_cypher(cypher, key, string.printable), msg)
