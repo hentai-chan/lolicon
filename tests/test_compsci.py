@@ -40,46 +40,46 @@ class TestCryptography(unittest.TestCase):
     def test_morse_code(self):
         from_morse = lambda msg: msg.upper().replace(' ', '')
         # case-insensitive
-        msg = 'Hello World'
+        msg = 'Measure what is measurable and make measurable what is not so'
         cypher = cryptography.encrypt_morse_code(msg)
         self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(msg))
         # numeric support
-        msg = 'The attack takes place at 2 AM'
+        msg = 'I was x years old in the year x2'
         cypher = cryptography.encrypt_morse_code(msg)
         self.assertEqual(cryptography.decrypt_morse_code(cypher), from_morse(msg))        
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_encrypt_binary(self):
-        msg = 'Hello, World!'
+        msg = "It's not that I'm so smart, it's just that I stay with problems longer."
         cypher = cryptography.encrypt_binary(msg)
         self.assertEqual(cryptography.decrypt_binary(cypher), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_caesar_cypher(self):
         # default seed
-        msg = 'HELLO WORLD'
-        cypher = cryptography.encrypt_caesar_cypher(msg, shift=8)
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8), msg)
-        # lowercase only
-        msg = 'help me i am insecure'
-        cypher = cryptography.encrypt_caesar_cypher(msg, shift=2, seed=string.ascii_lowercase)
-        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2, seed=string.ascii_lowercase), msg)
+        msg = 'mathematics is the handwriting on the human consciousness of the very spirit of life itself.'
+        cypher = cryptography.encrypt_caesar_cypher(msg, shift=2)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=2), msg)
+        # uppercase only
+        msg = 'THERE ARE NO CREEDS IN MATHEMATICS'
+        cypher = cryptography.encrypt_caesar_cypher(msg, shift=8,seed=string.ascii_uppercase)
+        self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=8, seed=string.ascii_uppercase), msg)
         # using special characters and numbers
         seed = ''.join((string.ascii_letters, string.digits, string.punctuation))
-        msg = 'I sure hope no one will read this message!'
+        msg = 'Mathematics is not a contemplative but a creative subject.'
         cypher = cryptography.encrypt_caesar_cypher(msg, shift=13, seed=seed)
         self.assertEqual(cryptography.decrypt_caesar_cypher(cypher, shift=13, seed=seed), msg)        
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_transposition_cypher(self):
-        msg = 'Common sense is not so common.'
+        msg = 'The highest form of pure thought is in mathematics.'
         cypher = cryptography.encrypt_transposition_cypher(msg, key=8)
         self.assertEqual(cryptography.decrypt_transposition_cypher(cypher, key=8), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_affine_cypher(self):
         key = cryptography.generate_affine_key()
-        msg = 'A computer would deserve to be called intelligent if it could deceive a human into believing that it was human.'
+        msg = 'The important thing to remember about mathematics is not to be frightened.'
         cypher = cryptography.encrypt_affine_cypher(msg, key)
         self.assertEqual(cryptography.decrypt_affine_cypher(cypher, key), msg)
 
@@ -87,15 +87,12 @@ class TestCryptography(unittest.TestCase):
     def test_vigenere_cypher(self):
         # default settings
         key = 'jacqueline'
-        msg = 'hello, world'
+        msg = 'mathematics is the music of reason'
         cypher = cryptography.encrypt_vigenere_cypher(msg, key)
         self.assertEqual(cryptography.decrypt_vigenere_cypher(cypher, key), msg)
         # shuffled key with extended seed
         key = string.printable
         sorted(key)
-        msg = """
-            You fall in love with body parts, I connect mentally with my
-            female counterpart before we bond physically
-        """ # nujabes - think different
+        msg = "Go down deep enough into anything and you will find mathematics."
         cypher = cryptography.encrypt_vigenere_cypher(msg, key, string.printable)
         self.assertEqual(cryptography.decrypt_vigenere_cypher(cypher, key, string.printable), msg)
