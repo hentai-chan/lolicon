@@ -4,12 +4,30 @@
 Cryptography
 ============
 
-TODO: Write namespace description.
+Preamble
+-----
+
+Cryptography is the art and science of concealing messages in order to introduce
+a level of secrecy between two parties (namely sender and receiver) to keep the
+communication channel secure. This namespace implements historically important
+encryption methods that are, by and large, cryptographically insecure. Their
+implementation is solely provided for educational purposes only.
+
+Note
+----
+All encryption methods encompass doc strings that detail the inner workings of
+their algorithm briefly. Note sections highlight interesting properties and further
+explain circumstantial weaknesses and relative strengths for certain parameters.
+
+References
+----------
+- "A Beginner's Guide to Cryptography and Computer Programming with Python" by Al Sweigart
+
 """
 
 import math
 import string
-from random import randint, shuffle
+from random import randint
 from typing import Tuple
 
 from .. import utils
@@ -147,7 +165,7 @@ def decrypt_binary(cypher: str) -> str:
     return ''.join((chr(bin2dec(char)) for char in cypher.split()))
 
 @utils.raise_warning(__warning_msg)
-def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_uppercase) -> str:
+def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_lowercase) -> str:
     """
     Decrypt a message by using the ceasar chipher that employs a substitution method
     and replaces each character by a fix number of positions (so called `shift`).
@@ -166,6 +184,7 @@ def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_upperca
 
     Notes
     -----
+    - Characters in `msg` that are not contained in `seed` escape encryption
     - The seed dictates language support
     - The ROT13 cypher is a special case of the caesar cypher (set `shift=13`)
     - A slightly stronger cypher can be obtained by using a shuffled `seed` with
@@ -182,7 +201,7 @@ def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_upperca
     """
     return msg.translate(str.maketrans(seed, ''.join((seed[shift%len(seed):], seed[:shift%len(seed)]))))
 
-def decrypt_caesar_cypher(cypher: str, shift: int=3, seed: str=string.ascii_uppercase) -> str:
+def decrypt_caesar_cypher(cypher: str, shift: int=3, seed: str=string.ascii_lowercase) -> str:
     """
     Decrypt a in ceasar cypher encrypted message. Note that you have to pass the same `seed`
     that you used to encrypt the original message.
@@ -347,7 +366,9 @@ def encrypt_vigenere_cypher(msg: str, key: str, seed: str=string.ascii_lowercase
     True
     ```
 
-    Suppose your key is `CLOCK` and your message `HELLO`. Then this function maps
+    Suppose your key is `CLOCK` and your message `HELLO` with your seed set as
+    `string.ascii_uppercase`. Then this function's map can be explained by the
+    table below:
     ```
                                   2
                     1     0       3     4
@@ -381,7 +402,7 @@ def encrypt_vigenere_cypher(msg: str, key: str, seed: str=string.ascii_lowercase
         Z | Z A B C D E F G H I J K L M N O P Q R S T U V W X Y
     ```
 
-    So, enumerating the key characters along the left-most column we get
+    Enumerating the key characters along the left-most column we get
     ```
     0 1 2 3 4 # index
     H E L L O # msg
@@ -394,6 +415,23 @@ def encrypt_vigenere_cypher(msg: str, key: str, seed: str=string.ascii_lowercase
     - Because it uses more than one set of substitutions, it is also called a
     polyaplhabetic substitution cypher
     - Longer keys enhance the encryption strength
+    - The vigenere cypher is invulnerable to dictionary word pattern attacks
+    - There are `len(key)^len(seed)` possible combinations to crack the cypher
+    by using a brute force attack
+    - Nevertheless, this cypher can still be broken with a combination of an
+    Kasiski examination and a frequency analysis
+    
+    One-Time Pad Cypher
+    -------------------
+    This cypher is considered secure if and only if three conditions are met:
+    1. The key is exactly as long as the message that is encrypted (ignoring
+    punctuation and whitespace characters)
+    2. The key is made up of truly random symbols (created with non-pseudo random
+    generators)
+    3. The key is only used once, and never used again for any other message
+    
+    If all this is true, the vigenere cypher promotes to the cryptographically
+    secure one-time pad cypher (OTP).
     """    
     cypher = []
     offset = 0
