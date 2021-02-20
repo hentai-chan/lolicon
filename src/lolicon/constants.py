@@ -6,62 +6,72 @@ from pint.quantity import Quantity
 
 from .utils import UREG
 
+#region mathematics
+
+PI = 3.1415926535897932384626433832795028841971693993751058209749445923
+EULER = 2.1456184438013963150071504700949423266618608128583149329864476977
+GOLDEN_RATIO = 1.6180339887498948482045868343656381177203091798057628621354486227
+
+#endregion
+
 #region computer science
 
+GOOGOL = 1e+100
+
 # decimal prefixes
-Yocto = 1e-24
-Zepto = 1e-21
-Atto = 1e-18
-Femto = 1e-15
-Pico = 1e-12
-Nano = 1e-9
-Micro = 1e-6
-Milli = 1e-3
-Centi = 1e-2
-Deci = 1e-1
-Deka = 1e+1
-Hecto = 1e+2
-Kilo = 1e+3
-Mega = 1e+6
-Giga = 1e+9
-Tera = 1e+12
-Peta = 1e+15
-Exa = 1e+18
-Zetta = 1e+21
-Yotta = 1e+24
+YOCTO = 1e-24
+ZEPTO = 1e-21
+ATTO = 1e-18
+FEMTO = 1e-15
+PICO = 1e-12
+NANO = 1e-9
+MICRO = 1e-6
+MILLI = 1e-3
+CENTI = 1e-2
+DECI = 1e-1
+DEKA = 1e+1
+HECTO = 1e+2
+KILO = 1e+3
+MEGA = 1e+6
+GIGA = 1e+9
+TERA = 1e+12
+PETA = 1e+15
+EXA = 1e+18
+ZETTA = 1e+21
+YOTTA = 1e+24
 
 # binary prefixes
-Kibi = 1024
-Mebi = 1_048_576
-Gibi = 1_073_741_824
-Tebi = 1_099_511_627_776
-Pebi = 1_125_899_906_842_624
-Exbi = 1_152_921_504_606_846_976
-Zebi = 1_180_591_620_717_411_303_424
-Yobi = 1_208_925_819_614_629_174_706_176
+KIBI = 1024
+MEBI = 1_048_576
+GIBI = 1_073_741_824
+TEBI = 1_099_511_627_776
+PEBI = 1_125_899_906_842_624
+EXBI = 1_152_921_504_606_846_976
+ZEBI = 1_180_591_620_717_411_303_424
+YOBI = 1_208_925_819_614_629_174_706_176
 
 #endregion computer science
 
 #region physics
 
-MassOfProton: Quantity = 1.672_621_923_69e-27 * UREG.kg
-ElectricChargeOfProton: Quantity = 1.602_176_634e-19 * UREG.C
+PROTON_MASS: Quantity = 1.672_621_923_69e-27 * UREG.kg
+PROTON_ELECTRIC_CHARGE: Quantity = 1.602_176_634e-19 * UREG.C
 
-MassOfElectron: Quantity = 	9.109_383_701_5e-31 * UREG.kg
-ElectricChargeOfElectron: Quantity = -ElectricChargeOfProton.magnitude * UREG.C
+ELECTRON_MASS: Quantity = 	9.109_383_701_5e-31 * UREG.kg
+ELECTRON_ELECTRIC_CHARGE: Quantity = -PROTON_ELECTRIC_CHARGE.magnitude * UREG.C
 
-MassOfNeutron: Quantity = 1.674_927_498_04e-27 * UREG.kg
-ElectricChargeOfNeutron: Quantity = 0 * UREG.C
+NEUTRON_MASS: Quantity = 1.674_927_498_04e-27 * UREG.kg
+NEUTRON_ELECTRIC_CHARGE: Quantity = 0 * UREG.C
 
-SpeedOfLight: Quantity = 299_792_458 * UREG.m / UREG.s
-GravitationalConstant: Quantity = 6.674_30e-11 * (UREG.m ** 3) / (UREG.kg * (UREG.s ** 2))
+SPEED_OF_LIGHT: Quantity = 299_792_458 * UREG.m / UREG.s
+GRAVITATIONAL_CONSTANT: Quantity = 6.674_30e-11 * (UREG.m ** 3) / (UREG.kg * (UREG.s ** 2))
 
 #endregion physics
 
 #region chemistry
 
-AvogadroNumber: Quantity = 6.022_140_76e+23 * (1 / UREG.mol)
-BoltzmannConstant: Quantity = 1.380_649e-23 * UREG.J / UREG.K
-UniversalGasConstant: Quantity = 8.314_462_618_153_24 * UREG.J / (UREG.K * UREG.mol)
+AVOGADRO_NUMBER: Quantity = 6.022_140_76e+23 * (1 / UREG.mol)
+BOLTZMANN_CONSTANT: Quantity = 1.380_649e-23 * UREG.J / UREG.K
+UNIVERSAL_GAS_CONSTANT: Quantity = 8.314_462_618_153_24 * UREG.J / (UREG.K * UREG.mol)
 
 #endregion chemistry
