@@ -10,4 +10,3 @@ coverage:
     - "src/lolicon/__main__.py"
     - "src/lolicon/cli.py"
     - "src/lolicon/utils.py"
-    - "src/lolicon/constants.py"
