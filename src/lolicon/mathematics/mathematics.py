@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import math
 import functools
 
 def gcd(a: int, b: int) -> int:
@@ -41,19 +42,6 @@ def mod_inverse(a: int, m: int) -> int or None:
         v1, v2, v3, u1, u2, u3 = (u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
     return u1 % m
 
-@functools.lru_cache
-def factorial(n: int) -> int:
-    """
-    Implements the recurrence definition of the factorial function: `n! = n(n-1)!`.
-    """
-    if n < 0:
-        raise ValueError()
-    
-    if n == 0 or n == 1:
-        return 1
-    else:
-        return n * factorial(n-1)
-
 def euler(n: int) -> float:
     """
     Uses the series definition to find an approximation of Euler's number.
@@ -73,7 +61,7 @@ def euler(n: int) -> float:
     2.718281828459045
     ```
     """
-    return sum(map(lambda k: 1**k / factorial(k), range(n)))
+    return sum(map(lambda k: 1**k / math.factorial(k), range(n)))
 
 def pi(n: int) -> float:
     """
