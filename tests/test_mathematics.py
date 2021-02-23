@@ -22,3 +22,12 @@ class Mathematics(unittest.TestCase):
         self.assertEqual(mathematics.mod_inverse(5, 7), 3)
         self.assertEqual(mathematics.mod_inverse(763, 23), 6)
         self.assertEqual(mathematics.mod_inverse(9438274, 40928773), 40286876)
+
+    def test_factorial(self):
+        with self.assertRaises(ValueError) as context:
+            undefined = mathematics.factorial(-1)
+
+        self.assertEqual(mathematics.factorial(0), 1)
+        self.assertEqual(mathematics.factorial(3), 6)
+        self.assertEqual(mathematics.factorial(6), 720)
+        self.assertAlmostEqual(mathematics.factorial(20), 2.432902008e+18, delta=176640000)
