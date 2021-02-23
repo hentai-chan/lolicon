@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+import math
 import unittest
 
+from src.lolicon import mathematics
 from src.lolicon import constants as const
 
 
@@ -15,13 +17,13 @@ class TestConstants(unittest.TestCase):
         pass
 
     def test_pi(self):
-        pass #TODO: implement pi series
+        self.assertAlmostEqual(mathematics.pi(1_000_000), const.PI, places=5)
 
     def test_euler(self):
-        pass #TODO: implement euler series
+        self.assertAlmostEqual(mathematics.euler(100), const.EULER, places=7)
 
     def test_golden_ratio(self):
-        pass #TODO: implement golden ratio equation
+        self.assertEqual(const.GOLDEN_RATIO, (1 + math.sqrt(5)) / 2)
 
     def test_binary_prefixes(self):
         self.assertEqual(const.KIBI, 2**10)
