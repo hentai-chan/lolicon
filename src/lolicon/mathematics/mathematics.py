@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import functools
+
 def gcd(a: int, b: int) -> int:
     """
     Return the greatest common denominator of `x` and `y` by using Euclid's GCD algorithm.
@@ -38,3 +40,57 @@ def mod_inverse(a: int, m: int) -> int or None:
         q = u3 // v3
         v1, v2, v3, u1, u2, u3 = (u1 - q * v1), (u2 - q * v2), (u3 - q * v3), v1, v2, v3
     return u1 % m
+
+@functools.lru_cache
+def factorial(n: int) -> int:
+    """
+    Implements the recurrence definition of the factorial function: `n! = n(n-1)!`.
+    """
+    if n < 0:
+        raise ValueError()
+    elif n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n-1)
+
+def euler(n: int) -> float:
+    """
+    Uses the series definition to find an approximation of Euler's number.
+
+    Note
+    ----
+    It takes `100` terms for this function to pass its unit test, i.e. to be equal
+    when rounded to 7 decimal places.
+
+    ```
+    >>> from lolicon import mathematics
+    >>> mathematics.euler(n=100)
+    2.7182818284590455
+    >>> # compare:
+    >>> import lolicon.constants as const
+    >>> const.EULER
+    2.718281828459045
+    ```
+    """
+    return sum(map(lambda k: 1**k / factorial(k), range(n)))
+
+def pi(n: int) -> float:
+    """
+    Uses the Leibniz series definition to find an approximation of pi.
+
+    Note
+    ----
+    It takes `1_000_000` terms for this function to pass its unit test,
+    i.e. to be equal when rounded to 5 decimal places.
+
+    ```
+    >>> from lolicon import mathematics
+    >>> mathematics.pi(n=1_000_000)
+    3.1415916535897743
+    >>> # compare:
+    >>> import lolicon.constants as const
+    >>> const.PI
+    3.141592653589793
+    ```
+    """
+    return 4 * sum(map(lambda k: (-1)**k / (2*k + 1), range(n)))
