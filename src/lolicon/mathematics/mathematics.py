@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import math
-import functools
+import random
 
 def gcd(a: int, b: int) -> int:
     """
@@ -82,4 +82,27 @@ def pi(n: int) -> float:
     3.141592653589793
     ```
     """
-    return 4 * sum(map(lambda k: (-1)**k / (2*k + 1), range(n)))
+    return 4 * sum(map(lambda k: (-1)**k / (2*k+1), range(n)))
+
+def sieve_of_eratosthenes(n: int):
+    """
+    Return a list of all prime numbers in range of `[2, n)`.
+
+    Example
+    -------
+    ```
+    >>> from lolicon.mathematics import sieve_of_eratosthenes
+    >>> sieve_of_eratosthenes(11)
+    [2, 3, 5, 7]
+    ```
+    """
+    sieve = [True] * n
+    sieve[0], sieve[1] = (False, False)
+
+    for i in range(2, int(math.sqrt(n))+1):
+        pointer = i * 2
+        while pointer < n:
+            sieve[pointer] = False
+            pointer += i
+
+    return list(filter(lambda i: sieve[i] is True, range(n)))
