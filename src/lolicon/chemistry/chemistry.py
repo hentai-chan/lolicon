@@ -6,8 +6,8 @@ from typing import List, Tuple
 
 from pint.quantity import Quantity
 
-from . import utils
-from .utils import UREG
+from .. import utils
+from ..utils import UREG
 
 
 class Element(object):

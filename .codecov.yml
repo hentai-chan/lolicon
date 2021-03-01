@@ -1,0 +1,12 @@
+coverage:
+  status:
+    patch:
+      default:
+        target: 90%
+        threshold: 5%
+  ignore:
+    - "setup.py"
+    - "src/lolicon/__init__.py"
+    - "src/lolicon/__main__.py"
+    - "src/lolicon/cli.py"
+    - "src/lolicon/utils.py"

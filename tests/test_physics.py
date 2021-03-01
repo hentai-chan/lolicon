@@ -9,7 +9,7 @@ class TestPlanet(unittest.TestCase):
         cls.earth = Planet('Earth', local_=True)
 
     @classmethod 
-    def tearDown(cls):
+    def tearDownClass(cls):
         pass
 
     def test_operators(self):
@@ -19,11 +19,20 @@ class TestPlanet(unittest.TestCase):
     def test_repr(self):
         self.assertEqual(repr(self.earth), 'Planet(Name=Earth)', msg="Representation changed?")
 
+    def test_str(self):
+        self.assertEqual(str(self.earth), 'Earth', msg="Expected 'Earth' (change of capitalization?)")
+
+    def test_name(self):
+        self.assertEqual(self.earth.name, 'Earth', msg="Expected 'Earth' (change of capitalization?)")
+
     def test_mass(self):
         self.assertEqual(self.earth.mass.magnitude, 5.969999999999999e+24, msg="Expected 5.969999999999999e+24 (change of precision?)")
 
     def test_diameter(self):
         self.assertEqual(self.earth.diameter.magnitude, 12756, msg="Expected 12756 (change of precision?)")
+
+    def test_density(self):
+        self.assertEqual(self.earth.density.magnitude, 5514.0, msg="Expected 5514.0 (change of precision?)")
 
     def test_gravity(self):
         self.assertEqual(self.earth.gravity.magnitude, 9.8, msg="Expected 9.8 (change of precision?)")
@@ -102,8 +111,14 @@ class TestSatellite(unittest.TestCase):
     def test_repr(self):
         self.assertEqual(repr(self.moon), 'Satellite(Name=Moon)', msg="Representation changed?")
 
+    def test_str(self):
+        self.assertEqual(str(self.moon), 'Moon', msg="Expected 'Moon' (change of capitalization?)")
+
     def test_name(self):
         self.assertEqual(self.moon.name, 'Moon', msg="Expected 'Moon' (change of capitalization?)")
+
+    def test_planet(self):
+        self.assertEqual(self.moon.planet.name, 'Earth', msg="Expected 'Earth' (change of capitalization?)")
 
     def test_gm(self):
         self.assertEqual(self.moon.gm.magnitude, 4902.801, msg="Expected 4902.801 (change of precision?)")
@@ -117,7 +132,7 @@ class TestSatellite(unittest.TestCase):
     def test_magnitude(self):
         self.assertEqual(self.moon.magnitude, -12.74, msg="Expected -12.74 (change of precision?)")
 
-    def test_magnitude(self):
+    def test_albedo(self):
         self.assertEqual(self.moon.albedo, 0.12, msg="Expected 0.12 (change of precision?)")
 
     def test_list(self):

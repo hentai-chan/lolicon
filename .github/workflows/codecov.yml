@@ -1,9 +1,10 @@
-
 name: Code Coverage
 on:
   push:
     branches:
       - 'master'
+      - 'rec-lolicon'
+      - 'dev-*'
 jobs:
   codecov:
     name: Codecov Workflow

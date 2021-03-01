@@ -29,6 +29,9 @@
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" title="License Information">
         <img src="https://img.shields.io/badge/License-GPLv3-blue.svg">
     </a>
+    <a href="https://pypi.org/project/lolicon/" title="Download (monthly)">
+        <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/lolicon">
+    </a>
     <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/hentai-chan/lolicon.git" title="Software Heritage Archive" target="_blank">
         <img src="https://archive.softwareheritage.org/badge/origin/https://github.com/hentai-chan/lolicon.git/">
     </a>
@@ -36,14 +39,21 @@
 
 ## Abstract
 
-This is a STEM project that provides useful utility methods for engineering
-sciences and educational purposes. Lolicon bears no relationship to anything but
-my fondness of weird project names.
+Lolicon is a general purpose library for solving common STEM-related problems
+students frequently encounter in highschool and their undergraduate studies. It's
+main purpose is to create a beginner-friendly interface with rich documentation
+that hopefully lowers the barrier of entrance into the world of programming.
+
+## Documentation
+
+There's no official documentation available yet, but the changelog alongside with
+all doc strings should give you a pretty good picture on how to utilize this module.
+Naturally, this will be worked on before the first major release comes out.
 
 ## Note
 
-This is a work in progress. Expect frequent changes to the API. As it stands now,
-this library is not ready for production use yet.
+This is a work in progress, as a result of which the API is still target of disruptive
+changes. As it stands now, this library is not ready for production use yet.
 
 ## Contact
 
