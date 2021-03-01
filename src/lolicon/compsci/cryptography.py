@@ -100,7 +100,7 @@ def encrypt_morse_code(msg: str) -> str:
     try:
         return ' '.join((__morse_code[char if char.isdigit() else char.upper()] for char in msg.replace(' ', '')))
     except KeyError:
-        logger.error(f"Original message contained illegal characters: {msg=}")
+        logger.error(f"Original message contained illegal characters: {msg=}", exc_info=True)
         raise ValueError(f"You may only use {','.join(string.ascii_letters)} and {','.join(string.digits)} in your message.")
 
 def decrypt_morse_code(cypher: str) -> str:

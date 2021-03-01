@@ -160,7 +160,7 @@ def raise_on_none(variable: str):
                     raise ValueError(f"{Fore.RED}{log_msg}{Style.RESET_ALL}")
                 return func(*args, **kwargs)
             except TypeError:
-                logger.error(log_msg)
+                logger.error(log_msg, exc_info=True)
                 raise ValueError(f"{Fore.RED}{log_msg}{Style.RESET_ALL}")
         return wrapper
     return decorator
