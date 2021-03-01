@@ -1,8 +1,12 @@
 # Changelog
 
-## Version 0.0.5a (09 February 2021)
+## Version 0.0.5a (01 March 2021)
 
-Revamps the entire project structure and defines a basic constant namespace.
+Revamps the entire project structure and adds three new namespaces:
+
+- `constants`
+- `compsci`
+- `mathematics`
 
 ```python
 import lolicon.constants as const
@@ -18,12 +22,32 @@ sub-package for cryptographically insecure (but easy to implement) encryption me
 ```python
 from lolicon.compsci import cryptography as crypto
 
-# coming soon!
+key = crypto.generate_affine_key()
+msg = "Hello, World!"
+cypher = crypto.encrypt_affine_cypher(msg, key)
+# True
+print(msg == crypto.decrypt_affine_cypher(cypher, key))
 ```
 
-On top of that, this version also provides a CLI for this module. At the moment,
-the only method implemented lets you read the log file content to help you troubleshoot
-errors:
+The following encryption methods are currently implemented:
+
+- `encrypt_morse_code`
+- `encrypt_binary`
+- `encrypt_caesar_cypher`
+- `encrypt_transposition_cypher`
+- `encrypt_affine_cypher`
+- `encrypt_vigenere_cypher`
+
+There's no documentation available at the moment, but the doc strings of each
+method contain instructions and miscellaneous remarks. Finally, this version also
+adds a few math-related methods to this module, inter alia
+
+- `gcd`
+- `mod_inverse`
+- `sieve_of_eratosthenes`
+  
+On top of that, this module also provides a CLI. It's pretty barren currently,
+but the `--read` option might turn in handy occasionally:
 
 ```cli
 # get help
