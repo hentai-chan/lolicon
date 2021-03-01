@@ -17,13 +17,13 @@ class TestConstants(unittest.TestCase):
         pass
 
     def test_pi(self):
-        self.assertAlmostEqual(mathematics.pi(1_000_000), const.PI, places=5)
+        self.assertAlmostEqual(const.PI, mathematics.pi(1_000_000), places=5)
 
     def test_euler(self):
-        self.assertAlmostEqual(mathematics.euler(100), const.EULER, places=7)
+        self.assertAlmostEqual(const.EULER, mathematics.euler(100), places=7)
 
     def test_golden_ratio(self):
-        self.assertEqual(const.GOLDEN_RATIO, (1 + math.sqrt(5)) / 2)
+        self.assertEqual(const.GOLDEN_RATIO, (1+math.sqrt(5))/2)
 
     def test_binary_prefixes(self):
         self.assertEqual(const.KIBI, 2**10)
