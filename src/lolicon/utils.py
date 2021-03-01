@@ -13,6 +13,7 @@ from collections import namedtuple
 from contextlib import closing
 from importlib.resources import path as resource_path
 from pathlib import Path
+from types import FrameType
 from typing import List
 
 import click
@@ -49,6 +50,29 @@ def print_on_error(message: str, verbose: bool=True) -> None:
     if verbose:
         click.secho(f"{Style.BRIGHT}{Fore.RED}{'[ ERROR ]'.ljust(12, ' ')}{Style.RESET_ALL}{message}", err=True)
 
+def debug(msg: str, frame: FrameType) -> None:
+    """
+    Helper function for slightly better print debugging. Prints the current line
+    of invocation, a custom `msg` and the source file name as color-formatted string.
+    Set `frame` to `inspect.currentframe()` when you invoke this function.
+
+    Example
+    -------
+    ```
+    import inspect
+
+    # some code
+    debug('Validate incoming data stream.', frame=inspect.currentframe())
+    # ...
+    debug('Enter recursive function.', frame=inspect.currentframe())
+    ```
+
+    Note
+    ----
+    Consider using an IDE with a debugger whenever possible.
+    """
+    print(f"\033[93m[{str(frame.f_lineno).zfill(4)}]\033[0m\t\033[92m{msg}\033[0m (in {Path(frame.f_code.co_filename).name}).")
+
 #endregion
 
 #region log utilities
@@ -57,12 +81,15 @@ def _hidden_module_path(target_dir: str) -> Path:
     """
     Return the base config path for this module.
     """
-    directory = Path(os.path.expandvars('%LOCALAPPDATA%')) if platform.system() == 'Windows' else Path('/var/log')
-    directory = directory.joinpath(target_dir)
+    directory = Path(os.path.expandvars('%LOCALAPPDATA%')) if platform.system() == 'Windows' else Path().home()
+    directory = directory.joinpath(f".{target_dir}")
     directory.mkdir(parents=True, exist_ok=True)
-    return directory
+    directory.mkdir(parents=True, exist_ok=True)
+    log_file = directory.joinpath(f"{target_dir}.log")
+    log_file.touch(exist_ok=True)
+    return log_file
 
-LOGFILEPATH = _hidden_module_path(target_dir=f".{package_name}").joinpath(f"{package_name}.log")
+LOGFILEPATH = _hidden_module_path(target_dir=package_name)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -99,9 +126,8 @@ def read_log():
 
         parse = lambda line: line.strip('\n').split('::')
         Entry = namedtuple('Entry', 'timestamp levelname lineno name message')
-        entries = [Entry(parse(line)[0], parse(line)[1], parse(line)[2], parse(line)[3], parse(line)[4]) for line in log]
-
-        for entry in entries:
+        
+        for entry in [Entry(parse(line)[0], parse(line)[1], parse(line)[2], parse(line)[3], parse(line)[4]) for line in log]:
             table.add_row(entry.timestamp, f"[bold {color_map[entry.levelname]}]{entry.levelname}", entry.name, entry.lineno, entry.message)
         
         CONSOLE.print(table)
@@ -150,8 +176,8 @@ def raise_warning(msg: str):
     return decorator
 
 @raise_on_none('string')
-def str_to_bool(string: str) -> bool:
+def str_to_bool(string_: str) -> bool:
     """
     Convert string to boolean if string is not `None`, else raise `ValueError`.
     """
-    return (string.capitalize() == 'True' or string.capitalize() == 'Yes') if string is not None else None
+    return (string_.capitalize() == 'True' or string_.capitalize() == 'Yes') if string_ is not None else None
