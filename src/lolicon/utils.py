@@ -77,9 +77,10 @@ def debug(msg: str, frame: FrameType) -> None:
 
 #region log utilities
 
-def _hidden_module_path(target_dir: str) -> Path:
+def log_file_path(target_dir: str) -> Path:
     """
-    Return the base config path for this module.
+    Make a `target_dir` folder in the user's home directory, create a log
+    file (if there is none, else use the existsing one) and return its path.
     """
     directory = Path(os.path.expandvars('%LOCALAPPDATA%')) if platform.system() == 'Windows' else Path().home()
     directory = directory.joinpath(f".{target_dir}")
@@ -89,7 +90,7 @@ def _hidden_module_path(target_dir: str) -> Path:
     log_file.touch(exist_ok=True)
     return log_file
 
-LOGFILEPATH = _hidden_module_path(target_dir=package_name)
+LOGFILEPATH = log_file_path(target_dir=package_name)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -100,7 +101,7 @@ logger.addHandler(file_handler)
 
 def read_log():
     """
-    Read color-formatted log file content from the speedtest module.
+    Read color-formatted log file content from the lolicon module.
     """
     color_map = {
         'NOTSET': 'white',
@@ -175,7 +176,7 @@ def raise_warning(msg: str):
         return wrapper
     return decorator
 
-@raise_on_none('string')
+@raise_on_none('string_')
 def str_to_bool(string_: str) -> bool:
     """
     Convert string to boolean if string is not `None`, else raise `ValueError`.
