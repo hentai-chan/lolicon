@@ -22,7 +22,8 @@ from colorama import Fore, Style
 from rich.console import Console
 from rich.table import Table
 
-from .__init__ import package_name
+from ..__init__ import package_name
+from .requesthandler import RequestHandler
 
 UREG = pint.UnitRegistry()
 CONSOLE = Console()
