@@ -1,4 +1,6 @@
-pint==0.16.1
-colorama==0.4.4
 click==7.1.2
-rich==9.10.0
+colorama==0.4.4
+faker==6.6.2
+pint==0.16.1
+requests==2.25.1
+rich==9.13.0
