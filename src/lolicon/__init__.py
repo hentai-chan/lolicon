@@ -2,7 +2,7 @@
 
 import sys
 
-__version__ = "0.0.5a"
+__version__ = "0.0.6a"
 package_name = "lolicon"
 python_major = "3"
 python_minor = "7"
