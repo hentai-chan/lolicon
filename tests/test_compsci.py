@@ -75,6 +75,13 @@ class TestCryptography(unittest.TestCase):
         self.assertEqual(crypto.decrypt_binary(cypher), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
+    def test_base64(self):
+        # msg = "Man is distinguished, not only by his reason, but ..."
+        msg = "any carnal pleasure"
+        cypher = crypto.encrypt_base64(msg)
+        self.assertEqual(cypher, 'YW55IGNhcm5hbCBwbGVhc3VyZS4=')
+
+    @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_caesar_cypher(self):
         # default seed
         msg = 'mathematics is the handwriting on the human consciousness of the very spirit of life itself.'

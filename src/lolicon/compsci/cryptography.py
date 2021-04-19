@@ -28,11 +28,14 @@ References
 import math
 import string
 from random import randint
+from textwrap import wrap
 from typing import Tuple
 
+from lolicon import compsci
+
 from .. import utils
+from ..compsci import bin2dec, dec2bin
 from ..mathematics import gcd, mod_inverse
-from ..compsci import dec2bin, bin2dec
 from ..utils import logger
 
 __warning_msg = "You're using an cryptographically insecure method."
@@ -75,6 +78,8 @@ __morse_code = {
     '9': '----.',
     '0': '-----'
 }
+
+__base64_table = ''.join((string.ascii_uppercase, string.ascii_lowercase, string.digits, '+', '/'))
 
 @utils.raise_warning(__warning_msg)
 def encrypt_morse_code(msg: str) -> str:
@@ -163,6 +168,37 @@ def decrypt_binary(cypher: str) -> str:
     Decrypts a binary message by mapping their value to UTF-8.
     """
     return ''.join((chr(bin2dec(char)) for char in cypher.split()))
+
+@utils.raise_warning(__warning_msg)
+def encrypt_base64(msg: str) -> str:
+    """
+    Encrypts a message into a base64 string using MIME's Base64 implementation.
+    It takes an ASCII sequence `msg` as parameter and divides the culminating
+    binary string into groups of 6 bits. Their values are mapped to a `__base64_table`.
+    Cyphers that are not a multiple of 4 are padded with the `=` character to the
+    right.
+
+    Encoding Process
+    ----------------
+    ```
+       M         A          N           ASCII MSG
+    01001101, 01100001, 01101110        1-BYTE SEQUENCES
+    
+    010011, 010110, 000101, 101110      6-BIT SEQUENCES
+       T       W       F       u        BASE64 TABLE
+    ```
+    """
+    buffer = wrap(''.join((compsci.dec2bin(ord(c)) for c in msg)), 6)
+    cypher = ''.join((__base64_table[compsci.bin2dec(bin_.ljust(6, '0'))] for bin_ in buffer))
+    return cypher if len(cypher) % 4 == 0 else cypher.ljust(len(cypher) + 4 - (len(cypher) % 4), '=')
+
+def decrypt_base64(cypher: str) -> str:
+    """
+    Decrypt a base64 encrypted message using MIME's Base64 implementation.
+    """
+    buffer = (compsci.dec2bin(__base64_table.index(v), padding=6) for v in cypher.strip('='))
+    bin_stream = wrap(''.join(buffer), 8)
+    return ''.join(chr(compsci.bin2dec(bin_)) for bin_ in bin_stream if len(bin_) == 8)
 
 @utils.raise_warning(__warning_msg)
 def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_lowercase) -> str:
