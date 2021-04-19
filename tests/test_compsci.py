@@ -76,10 +76,13 @@ class TestCryptography(unittest.TestCase):
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_base64(self):
-        # msg = "Man is distinguished, not only by his reason, but ..."
-        msg = "any carnal pleasure"
+        # test padding
+        msg = "Hello, World!"
+        self.assertEqual(crypto.encrypt_base64(msg), 'SGVsbG8sIFdvcmxkIQ==')
+        # check msg retention 
+        msg = "Man is distinguished, not only by his reason, but ..."
         cypher = crypto.encrypt_base64(msg)
-        self.assertEqual(cypher, 'YW55IGNhcm5hbCBwbGVhc3VyZS4=')
+        self.assertEqual(crypto.decrypt_base64(cypher), msg)
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
     def test_caesar_cypher(self):
