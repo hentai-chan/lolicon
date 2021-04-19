@@ -31,8 +31,6 @@ from random import randint
 from textwrap import wrap
 from typing import Tuple
 
-from lolicon import compsci
-
 from .. import utils
 from ..compsci import bin2dec, dec2bin
 from ..mathematics import gcd, mod_inverse
@@ -188,17 +186,17 @@ def encrypt_base64(msg: str) -> str:
        T       W       F       u        BASE64 TABLE
     ```
     """
-    buffer = wrap(''.join((compsci.dec2bin(ord(c)) for c in msg)), 6)
-    cypher = ''.join((__base64_table[compsci.bin2dec(bin_.ljust(6, '0'))] for bin_ in buffer))
+    buffer = wrap(''.join((dec2bin(ord(c)) for c in msg)), 6)
+    cypher = ''.join((__base64_table[bin2dec(bin_.ljust(6, '0'))] for bin_ in buffer))
     return cypher if len(cypher) % 4 == 0 else cypher.ljust(len(cypher) + 4 - (len(cypher) % 4), '=')
 
 def decrypt_base64(cypher: str) -> str:
     """
     Decrypt a base64 encrypted message using MIME's Base64 implementation.
     """
-    buffer = (compsci.dec2bin(__base64_table.index(v), padding=6) for v in cypher.strip('='))
+    buffer = (dec2bin(__base64_table.index(v), padding=6) for v in cypher.strip('='))
     bin_stream = wrap(''.join(buffer), 8)
-    return ''.join(chr(compsci.bin2dec(bin_)) for bin_ in bin_stream if len(bin_) == 8)
+    return ''.join(chr(bin2dec(bin_)) for bin_ in bin_stream if len(bin_) == 8)
 
 @utils.raise_warning(__warning_msg)
 def encrypt_caesar_cypher(msg: str, shift: int=3, seed: str=string.ascii_lowercase) -> str:
