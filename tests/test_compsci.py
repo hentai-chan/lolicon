@@ -27,6 +27,26 @@ class TestComputerScience(unittest.TestCase):
         self.assertEqual(compsci.dec2bin(311, padding=10), '0100110111')
         self.assertEqual(compsci.dec2bin(7019, padding=16), '0001101101101011')
 
+    def test_dec2oct(self):
+        self.assertEqual(compsci.dec2oct(22), '26')
+        self.assertEqual(compsci.dec2oct(311), '467')
+        self.assertEqual(compsci.dec2oct(7019), '15553')
+
+    def test_oct2dec(self):
+        self.assertEqual(compsci.oct2dec('26'), 22)
+        self.assertEqual(compsci.oct2dec('467'), 311)
+        self.assertEqual(compsci.oct2dec('15553'), 7019)
+
+    def test_dec2hex(self):
+        self.assertEqual(compsci.dec2hex(22), '16')
+        self.assertEqual(compsci.dec2hex(311), '137')
+        self.assertEqual(compsci.dec2hex(7019), '1B6B')
+
+    def test_hex2dec(self):
+        self.assertEqual(compsci.hex2dec('16'), 22)
+        self.assertEqual(compsci.hex2dec('137'), 311)
+        self.assertEqual(compsci.hex2dec('1B6B'), 7019)
+
 class TestCryptography(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -49,7 +69,7 @@ class TestCryptography(unittest.TestCase):
         self.assertEqual(crypto.decrypt_morse_code(cypher), from_morse(msg))        
 
     @pytest.mark.filterwarnings('ignore::UserWarning')
-    def test_encrypt_binary(self):
+    def test_binary(self):
         msg = "It's not that I'm so smart, it's just that I stay with problems longer."
         cypher = crypto.encrypt_binary(msg)
         self.assertEqual(crypto.decrypt_binary(cypher), msg)
