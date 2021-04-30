@@ -27,6 +27,8 @@ class Planet(object):
     This interface exposes planetary data from the NASA Jet Propulsion Laboratory
     as `pint` quantities. See reference data sheet at <https://nssdc.gsfc.nasa.gov/planetary/factsheet/planetfact_notes.html>
     """
+    __slots__ = ['__name', '__local']
+
     def __init__(self, name: str, local_: bool=False) -> Planet:
         """
         Instantiate a new planet from the solar system.
@@ -295,6 +297,8 @@ class Satellite(object):
     This interface exposes planetary data from the NASA Jet Propulsion Laboratory
     as `pint` quantities. See reference data sheet at <https://ssd.jpl.nasa.gov/?sat_phys_par>
     """
+    __slots__ = ['__name', '__local']
+
     def __init__(self, name: str, local_: bool=False) -> Planet:
         """
         Instantiate a new satellite from the solar system.

@@ -22,6 +22,8 @@ class Element(object):
         >>> print(gold.number_of_protons)
         79
     """
+    __slots__ = ['__symbol', '__local']
+
     def __init__(self, symbol: str, local_: bool=False) -> Element:
         self.__symbol = symbol.capitalize()
         self.__local = local_
