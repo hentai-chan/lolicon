@@ -75,23 +75,22 @@ class RequestHandler(object):
         session.hooks['response'] = [assert_status_hook]
         session.headers.update({
             "Content-Type": "application/json; charset=utf-8",
-            "User-Agent" : RequestHandler._fake.chrome(version_from=80, version_to=86, build_from=4100, build_to=4200)
+            "User-Agent" : RequestHandler._fake.chrome(version_from=86, version_to=92, build_from=4300, build_to=4400)
         })
         return session
     
-    def get(self, url: str, params: dict=None, **kwargs) -> Response:
+    def get(self, url: str, **kwargs) -> Response:
         """
         Returns the GET request encoded in `utf-8`. Adds proxies to this session
         on the fly if urllib is able to pick up the system's proxy settings.
         """
-        response = self.session.get(url, timeout=self.timeout, params=params, proxies=getproxies(), **kwargs)
+        response = self.session.get(url, timeout=self.timeout, proxies=getproxies(), **kwargs)
         response.encoding = 'utf-8'
         return response
 
-    def post(self, url: str, payload: dict=None, **kwargs) -> Response:
+    def post(self, url: str, **kwargs) -> Response:
         """
-        Returns the POST request encoded in `utf-8`. Adds proxies to this session
+        Returns a `utf-8` encoded POST request. Adds proxies to this session
         on the fly if urllib is able to pick up the system's proxy settings.
         """
-        data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
-        return self.session.post(url, timeout=self.timeout, data=data, proxies=getproxies(), **kwargs)
+        return self.session.post(url, timeout=self.timeout, proxies=getproxies(), **kwargs)
