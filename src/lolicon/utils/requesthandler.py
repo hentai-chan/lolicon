@@ -88,9 +88,10 @@ class RequestHandler(object):
         response.encoding = 'utf-8'
         return response
 
-    def post(self, url: str, **kwargs) -> Response:
+    def post(self, url: str, payload: dict=None, **kwargs) -> Response:
         """
         Returns a `utf-8` encoded POST request. Adds proxies to this session
         on the fly if urllib is able to pick up the system's proxy settings.
         """
-        return self.session.post(url, timeout=self.timeout, proxies=getproxies(), **kwargs)
+        data = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+        return self.session.post(url, timeout=self.timeout, data=data, proxies=getproxies(), **kwargs)
