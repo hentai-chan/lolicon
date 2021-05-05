@@ -8,6 +8,7 @@ on:
     branches: [ master, rec-* ]
   schedule:
     - cron: '18 23 * * 4'
+  workflow_dispatch:
 
 jobs:
   analyze:

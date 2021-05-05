@@ -12,6 +12,7 @@ on:
       - rec-*
       - dev-*
       - dependabot/*
+  workflow_dispatch:
 
 jobs:
   build:

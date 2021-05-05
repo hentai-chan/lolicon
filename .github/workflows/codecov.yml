@@ -5,6 +5,8 @@ on:
       - 'master'
       - 'rec-lolicon'
       - 'dev-*'
+  workflow_dispatch:
+  
 jobs:
   codecov:
     name: Codecov Workflow
